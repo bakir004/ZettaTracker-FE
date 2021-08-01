@@ -8,7 +8,7 @@ const Header = () => {
     return ( 
         <div className={styles.container}>
             <Link to="/">
-                <img src={Logo} className={styles.headerLogo}></img>
+                <img src={Logo} className={styles.headerLogo} alt="logo"></img>
             </Link>
             <div className={styles.halfHeader1}>
                 <Link to="/" className={styles.button}>Home</Link>

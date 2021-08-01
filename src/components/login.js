@@ -2,7 +2,7 @@ import React from 'react';
 import LoginImage from "../assets/Login Page Image.png";
 import { useLoginStyles } from "../styles/loginStyles"
 import { Link } from "react-router-dom"
-import { withStyles, makeStyles, createStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
 const CssTextField = withStyles({

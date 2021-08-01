@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { rootStyles } from "./rootStyles";
 
-const {darkBlue, darkestBlue, white} = rootStyles;
+const {darkBlue, darkestBlue } = rootStyles;
 
 export const useHeaderStyles = makeStyles(() => ({
     container: {

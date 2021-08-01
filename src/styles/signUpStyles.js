@@ -3,7 +3,7 @@ import { rootStyles } from "./rootStyles";
 
 const {darkBlue, darkestBlue, white} = rootStyles;
 
-export const useLoginStyles = makeStyles(() => ({
+export const useSignupStyles = makeStyles(() => ({
     backgroundImage: {
         position: "absolute",
         top: 0,
@@ -18,8 +18,23 @@ export const useLoginStyles = makeStyles(() => ({
         flexDirection: "row-reverse"
     },
     content: {
-        width: "400px",
-        margin: "10rem 25rem 0 0",
+        width: "550px",
+        margin: "10rem 20rem 0 0",
+    },
+    halfInputsDiv: {
+        width: "100%",
+        display: "flex",
+        "& > *": {
+            width: "50%",
+        }
+    },
+    inputDiv: {
+        "&:first-of-type": {
+            marginRight: "0.375rem"
+        },
+        "&:last-of-type": {
+            marginLeft: "0.375rem"
+        }
     },
     title: {
         color: darkestBlue,
@@ -31,11 +46,13 @@ export const useLoginStyles = makeStyles(() => ({
     },
     helperText: {
         textDecoration: "underline",
-        color: darkBlue
+        color: darkBlue,
+        display: "block",
+        margin: "2px 0"
     },
     filledButton: {
         display: "block",
-        margin: "1rem 0 0.25rem 0",
+        margin: "0.5rem 0 0.25rem 0",
         width: "50%",
         fontWeight: "500",
         height: "40px",
