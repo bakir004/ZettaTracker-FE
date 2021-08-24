@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import SignupImage from "../assets/Sign Up Page Image.png";
 import { useSignupStyles } from "../styles/signUpStyles"
 import { Link } from "react-router-dom"
@@ -40,8 +40,14 @@ const CssTextField = withStyles({
 
 const Signup = () => {
     const styles = useSignupStyles();
-    const handleChange = (e) => {
-        console.log(e.target.value)
+    
+    const [data, setData] = useState({});
+
+    const handleChange = (e, property) => {
+        let obj = data;
+        data[property] = e.target.value;
+        setData(obj)
+        console.log(data)
     }
 
     return ( 
@@ -55,9 +61,9 @@ const Signup = () => {
                             className={styles.inputField}
                             label="First name"
                             variant="outlined"
-                            id="custom-css-outlined-input"
+                            id="custom-css-outlined-input1"
                             fullWidth
-                            onChange={(e) => handleChange(e)}
+                            onChange={(e) => handleChange(e, "firstName")}
                         />
                     </div>
                     <div className={styles.inputDiv}>
@@ -65,9 +71,9 @@ const Signup = () => {
                             className={styles.inputField}
                             label="Last name"
                             variant="outlined"
-                            id="custom-css-outlined-input"
+                            id="custom-css-outlined-input2"
                             fullWidth
-                            onChange={(e) => handleChange(e)}
+                            onChange={(e) => handleChange(e, "lastName")}
                         />
                     </div>
                 </div>
@@ -75,27 +81,27 @@ const Signup = () => {
                     className={styles.inputField}
                     label="Email"
                     variant="outlined"
-                    id="custom-css-outlined-input"
+                    id="custom-css-outlined-input3"
                     fullWidth
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "email")}
                 />
                 <CssTextField
                     className={styles.inputField}
                     label="Password"
                     variant="outlined"
-                    id="custom-css-outlined-input"
+                    id="custom-css-outlined-input4"
                     fullWidth
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "password")}
                 />
                 <CssTextField
                     className={styles.inputField}
                     label="Repeat password"
                     variant="outlined"
-                    id="custom-css-outlined-input"
+                    id="custom-css-outlined-input5"
                     fullWidth
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "repeatPassword")}
                 />
-                <Link className={styles.filledButton}>Sign up</Link>
+                <Link to="/dashboard" className={styles.filledButton}>Sign up</Link>
                 <Link to="/login" className={styles.helperText}>Already have an account? Login</Link>
                 <Link to="/role-select" className={styles.helperText}>Sign in as demo guest</Link>
             </div>

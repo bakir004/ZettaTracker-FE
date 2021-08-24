@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import LoginImage from "../assets/Login Page Image.png";
 import { useLoginStyles } from "../styles/loginStyles"
 import { Link } from "react-router-dom"
@@ -40,8 +40,14 @@ const CssTextField = withStyles({
 
 const Login = () => {
     const styles = useLoginStyles();
-    const handleChange = (e) => {
-        console.log(e.target.value)
+
+    const [data, setData] = useState({});
+
+    const handleChange = (e, property) => {
+        let obj = data;
+        data[property] = e.target.value;
+        setData(obj)
+        console.log(data)
     }
 
     return ( 
@@ -53,20 +59,20 @@ const Login = () => {
                     className={styles.inputField}
                     label="Email"
                     variant="outlined"
-                    id="custom-css-outlined-input"
+                    id="custom-css-outlined-input1"
                     fullWidth
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "email")}
                 />
                 <CssTextField
                     className={styles.inputField}
                     label="Password"
                     variant="outlined"
-                    id="custom-css-outlined-input"
+                    id="custom-css-outlined-input2"
                     fullWidth
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e, "password")}
                 />
                 <Link to="/forgot-password" className={styles.helperText}>Forgot password?</Link>
-                <Link className={styles.filledButton}>Login</Link>
+                <Link to="/dashboard" className={styles.filledButton}>Login</Link>
                 <Link to="/signup" className={styles.helperText}>Don't have an account? Sign up</Link>
             </div>
         </div>
