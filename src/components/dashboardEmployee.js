@@ -6,12 +6,14 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Chip from '@material-ui/core/Chip';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 import Menu from '@material-ui/core/Menu';
+import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
+import MyChip from "./chip"
+import Image from "../assets/image.png"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -185,14 +187,12 @@ const Dashboard = () => {
                         </TableCell>
                         <TableCell>name</TableCell>
                         <TableCell>
-                            <Chip
-                                color="primary"
-                                avatar={<Avatar classes={{root:styles.avatarChip}}>Z</Avatar>}
-                                label="Zakir Cinjarevic"
-                                size="small"
-                                onClick={()=>console.log("hi")}
-                                className={styles.assigneeChip}
-                            />
+                            <div style={{display: "flex", flexWrap: "wrap"}}>
+                                <MyChip avatar={Image}>Zakir Cinjarevic</MyChip>
+                                <MyChip avatar={""}>Bakir Cinjarevic</MyChip>
+                                <MyChip avatar={""}>Azra Arnaut</MyChip>
+                                <MyChip avatar={""}>Babo</MyChip>
+                            </div>
                         </TableCell>
                         <TableCell><Chip className={classes.root} label="High" size="small" classname={styles.chip} /></TableCell>
                         <TableCell>carbs</TableCell>
