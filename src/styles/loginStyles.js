@@ -19,7 +19,7 @@ export const useLoginStyles = makeStyles(() => ({
     },
     content: {
         width: "400px",
-        margin: "10rem 25rem 0 0",
+        margin: "20vh 25vh 0 0",
     },
     title: {
         color: darkestBlue,

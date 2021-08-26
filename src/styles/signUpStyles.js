@@ -19,7 +19,7 @@ export const useSignupStyles = makeStyles(() => ({
     },
     content: {
         width: "550px",
-        margin: "10rem 20rem 0 0",
+        margin: "10vh 25vh 0 0",
     },
     halfInputsDiv: {
         width: "100%",

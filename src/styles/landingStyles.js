@@ -15,7 +15,7 @@ export const useLandingStyles = makeStyles(() => ({
     },
     content: {
         width: "550px",
-        margin: "14rem 0 0 10rem",
+        margin: "25vh 0 0 20vh",
     },
     title: {
         color: darkestBlue,

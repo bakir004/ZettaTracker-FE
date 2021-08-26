@@ -14,6 +14,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
 import MyChip from "./chip"
 import Image from "../assets/image.png"
+import Ticket from "./ticket";
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -49,7 +51,10 @@ const Dashboard = () => {
                 priority: priorities.HIGH,
                 dueDate: new Date(),
                 status: statuses.OPEN,
-                assignee: "Zakir Cinjarevic",
+                assignee: {
+                    name: "Zakir Cinjarevic",
+                    image: Image
+                },
                 open: false,
             },
             {
@@ -58,7 +63,10 @@ const Dashboard = () => {
                 priority: priorities.MEDIUM,
                 dueDate: new Date(),
                 status: statuses.IN_PROGRESS,
-                assignee: "Bakir Cinjarevic",
+                assignee: {
+                    name: "Zakir Cinjarevic",
+                    image: Image
+                },
                 open: false,
             },
             {
@@ -67,7 +75,10 @@ const Dashboard = () => {
                 priority: priorities.LOW,
                 dueDate: new Date(),
                 status: statuses.CLOSED,
-                assignee: "Zakir Binjarevic",
+                assignee: {
+                    name: "Zakir Cinjarevic",
+                    image: Image
+                },
                 open: false,
             },
         ]
@@ -111,8 +122,8 @@ const Dashboard = () => {
             <Table aria-label="simple table">
                 <colgroup>
                     <col width="auto" />
-                    <col width="25%" />
-                    <col width="20%" />
+                    <col width="auto" />
+                    <col width="auto" />
                 </colgroup>
                 <TableHead>
                     <TableRow className={styles.tableRow}>
@@ -125,8 +136,11 @@ const Dashboard = () => {
                             <div className={styles.tableHeaderCell}>
                                 <div className={styles.tableHeaderCellText}>Priority</div>
                                 <div className={styles.tableHeaderActions}>
-                                    <div className={styles.sort}>
-                                        <ImportExportIcon onClick={handleClick}></ImportExportIcon>
+                                    <div className={styles.action}>
+                                        <Tooltip arrow title="Sort" placement="top">
+                                            <ImportExportIcon onClick={handleClick}></ImportExportIcon>
+                                        </Tooltip>
+                                        
                                         <Menu
                                             id="simple-menu"
                                             anchorEl={anchorEl}
@@ -140,8 +154,10 @@ const Dashboard = () => {
                                         </Menu>
                                         
                                     </div>
-                                    <div className={styles.filter}>
-                                        <FilterListIcon onClick={handleClick}></FilterListIcon>
+                                    <div className={styles.action}>
+                                        <Tooltip arrow title="Filter" placement="top">
+                                            <FilterListIcon onClick={handleClick}></FilterListIcon>
+                                        </Tooltip>
                                         <Menu
                                             id="simple-menu"
                                             anchorEl={anchorEl}
@@ -159,53 +175,16 @@ const Dashboard = () => {
                         </TableCell>
                         <TableCell>Due date</TableCell>
                         <TableCell>Status</TableCell>
-                        <TableCell>Actions</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {/* TICKET MAPPER BEGIN*/}
                     {tickets.map((row, i) => (
-                        <TableRow key={i} className={styles.tableRow}>
-                            <TableCell className={styles.iconCell}>
-                                <div className={styles.icon}></div>
-                            </TableCell>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.assignee}</TableCell>
-                            <TableCell>
-                                <Chip className={classes.root} label={row.priority} size="small" classname={styles.chip} />
-                            </TableCell>
-                            <TableCell>{row.dueDate.toString()}</TableCell>
-                            <TableCell>{row.status}</TableCell>
-                            <TableCell>{row.status}</TableCell>
-                        </TableRow>
+                        <Ticket ticketInfo={row} key={i}></Ticket>
                     ))}
                     {/* TICKET MAPPER END*/}
 
-                    <TableRow className={styles.tableRow}>
-                        <TableCell scope="row" className={styles.iconCell}>
-                            <div className={styles.icon} onClick={() => console.log("")}></div>
-                        </TableCell>
-                        <TableCell>name</TableCell>
-                        <TableCell>
-                            <div style={{display: "flex", flexWrap: "wrap"}}>
-                                <MyChip avatar={Image}>Zakir Cinjarevic</MyChip>
-                                <MyChip avatar={""}>Bakir Cinjarevic</MyChip>
-                                <MyChip avatar={""}>Azra Arnaut</MyChip>
-                                <MyChip avatar={""}>Babo</MyChip>
-                            </div>
-                        </TableCell>
-                        <TableCell><Chip className={classes.root} label="High" size="small" classname={styles.chip} /></TableCell>
-                        <TableCell>carbs</TableCell>
-                        <TableCell>protein</TableCell>
-                        <TableCell>protein</TableCell>
-                    </TableRow>
-                    <TableRow className={tickets[0] ? styles.ticket : styles.closedTicket}>
-                        <TableCell scope="row" className={styles.iconCell}>
-                            <div className={styles.icon}></div>
-                        </TableCell>
-                        <TableCell colspan={2} style={{maxWidth: "400px"}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</TableCell>
-                        <TableCell colspan={4}>calories</TableCell>
-                    </TableRow>
+                    
                 </TableBody>
             </Table>
         </div>

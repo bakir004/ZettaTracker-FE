@@ -174,7 +174,7 @@ export const useDashboardStyles = makeStyles(() => ({
         },
         "& > td": {
             padding: "12px 12px",
-            fontWeight: "500",
+            fontWeight: "400",
             fontFamily: "Montserrat",
             color: darkestBlue,
             borderRight: "1px solid #d1d1d1"
@@ -183,7 +183,8 @@ export const useDashboardStyles = makeStyles(() => ({
     },
     tableHeaderCell: {
         display: "flex",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        minWidth: "150px"
     },
     tableHeaderCellText: {
         display: "flex",
@@ -193,13 +194,14 @@ export const useDashboardStyles = makeStyles(() => ({
         display: "flex",
         alignItems: "center"
     },
-    sort: {
+    action: {
         height: "24px",
-        cursor: "pointer"
-    },
-    filter: {
-        height: "24px",
-        cursor: "pointer"
+        cursor: "pointer",
+        borderRadius: "50px",
+        transition: "0.25s",
+        "&:hover": {
+            backgroundColor: "lightgrey"
+        }
     },
     iconCell: {
         width: "24px",
@@ -218,15 +220,15 @@ export const useDashboardStyles = makeStyles(() => ({
         '& span':{
             transition:'0.25s ease',
             fontSize:'0px',
+            fontFamily: "Montserrat"
         },
         '&:hover':{
             '& span':{
-                fontSize:'16px'
+                fontSize:'0.8125rem',
             }
         }
     },
     avatarChip: {
         fontFamily: "montserrat",
-        marginLeft: "6px",
     }
 }))
