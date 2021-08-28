@@ -18,7 +18,6 @@ export const useChipStyles = makeStyles(() => ({
 
         fontSize: "0.8125rem",
         borderRadius: "50px",
-        transition: "0.25s",
         whiteSpace: "nowrap",
         overflow: "hidden",
 

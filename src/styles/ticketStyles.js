@@ -68,4 +68,32 @@ export const useTicketStyles = makeStyles(() => ({
             borderRight: "1px solid #d1d1d1"
         }
     },
+    imagesAndActionsCell: {
+        width: "100%",
+        height: "100%",
+    },
+    header: {
+        height: "30px",
+        display: "flex",
+        justifyContent: "space-between",
+        fontWeight: "600"
+    },
+    actions: {
+        height: "30px",
+        display: "flex"
+    },
+    action: {
+        height: "30px",
+        width: "30px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around",
+        cursor:"pointer",
+        borderRadius: "50px",
+        transition: "0.25s",
+        margin: "0 2px",
+        "&:hover": {
+            backgroundColor: "lightgrey"
+        }
+    }
 }))

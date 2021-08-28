@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDashboardStyles} from "../styles/dashboardStyles"
+import { useDashboardStyles } from "../styles/dashboardStyles"
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,42 +9,94 @@ import TableRow from '@material-ui/core/TableRow';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 import Menu from '@material-ui/core/Menu';
-import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
-import Avatar from '@material-ui/core/Avatar';
-import MyChip from "./chip"
 import Image from "../assets/image.png"
 import Ticket from "./ticket";
 import Tooltip from '@material-ui/core/Tooltip';
+import { priorities, statuses } from './ticketEnums';
+import Chip from "./chip"
+import { rootStyles } from "../styles/rootStyles"
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      backgroundColor: '#FF7070',
-      color: "white",
-      fontSize: "0.75rem",
-      fontFamily: "Montserrat",
-    },
-  }));
+const { red, orange, green } = rootStyles;
 
 const Dashboard = () => {
-
-    const priorities = {
-        HIGH: "High",
-        MEDIUM: "Medium",
-        LOW: "Low"
-    }
-    const statuses = {
-        OPEN: "Open",
-        IN_PROGRESS: "In Progress",
-        CLOSED: "Closed"
-    }
-
     const styles = useDashboardStyles();
     const [activeTab, setActiveTab] = useState(0);
-    const [active, setActive] = useState(false);
     const [tabs, setTabs] = useState(["Projects", "My tickets", "Closed tickets", "Ticket timeline"]);
     const [tickets, setTickets] = useState(
         [
+            {
+                name: "Create bro",
+                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                priority: priorities.HIGH,
+                dueDate: new Date(),
+                status: statuses.OPEN,
+                assignee: {
+                    name: "Zakir Cinjarevic",
+                    image: Image
+                },
+                open: false,
+            },
+            {
+                name: "Make ligma",
+                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                priority: priorities.MEDIUM,
+                dueDate: new Date(),
+                status: statuses.IN_PROGRESS,
+                assignee: {
+                    name: "Zakir Cinjarevic",
+                    image: Image
+                },
+                open: false,
+            },
+            {
+                name: "Finish wigga",
+                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                priority: priorities.LOW,
+                dueDate: new Date(),
+                status: statuses.CLOSED,
+                assignee: {
+                    name: "Zakir Cinjarevic",
+                    image: Image
+                },
+                open: false,
+            },
+            {
+                name: "Create BRUH",
+                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                priority: priorities.HIGH,
+                dueDate: new Date(),
+                status: statuses.OPEN,
+                assignee: {
+                    name: "Zakir Cinjarevic",
+                    image: Image
+                },
+                open: false,
+            },
+            {
+                name: "Make BRUH",
+                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                priority: priorities.MEDIUM,
+                dueDate: new Date(),
+                status: statuses.IN_PROGRESS,
+                assignee: {
+                    name: "Zakir Cinjarevic",
+                    image: Image
+                },
+                open: false,
+            },
+            {
+                name: "Finish BRUH",
+                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                priority: priorities.LOW,
+                dueDate: new Date(),
+                status: statuses.CLOSED,
+                assignee: {
+                    name: "Zakir Cinjarevic",
+                    image: Image
+                },
+                open: false,
+            },
             {
                 name: "Create UI",
                 description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
@@ -59,7 +111,7 @@ const Dashboard = () => {
             },
             {
                 name: "Make Backend",
-                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                description: "Lorem I",
                 priority: priorities.MEDIUM,
                 dueDate: new Date(),
                 status: statuses.IN_PROGRESS,
@@ -71,7 +123,7 @@ const Dashboard = () => {
             },
             {
                 name: "Finish frontend",
-                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                description: "nigga",
                 priority: priorities.LOW,
                 dueDate: new Date(),
                 status: statuses.CLOSED,
@@ -83,9 +135,51 @@ const Dashboard = () => {
             },
         ]
     )
-    const classes = useStyles();
+    const [filteredTickets, setFilteredTickets] = useState([])
+    const [sorted, setSorted] = useState(false)
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const sortTickets = (criteria) => {
+        let ticketsCopy = [];
+        let index = 0;
+        switch(criteria) {
+            case "priority": {
+                if(!sorted) {
+                    tickets.forEach(item => {
+                        if(item.priority === priorities.LOW) {
+                            ticketsCopy.unshift(item);
+                            index++;
+                        } else if(item.priority === priorities.HIGH) {
+                            ticketsCopy.push(item);
+                        } else {
+                            ticketsCopy.splice(index, 0, item);
+                        }
+                    })
+                } else {
+                    ticketsCopy = tickets;
+                    ticketsCopy.reverse();
+                    setTickets([...ticketsCopy])
+                }
+                break;
+            }
+        }
+        setTickets([...ticketsCopy])
+        setSorted(true)
+    }
+
+    const handlePrioritySelect = (priority) => {
+        if(priority) {
+            const filtered = tickets.filter(item => item.priority === priority)
+            setFilteredTickets([...filtered])
+            setAnchorEl(null);
+        } else {
+            setFilteredTickets([])
+            setAnchorEl(null);
+        }
+    }
+
+    // MENU HANDLER BEGIN
+
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -94,6 +188,14 @@ const Dashboard = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const toggleOpen = (id) => {
+        const ticketsCopy = tickets;
+        ticketsCopy[id].open = !ticketsCopy[id].open;
+        setTickets([...ticketsCopy])
+    }
+
+    // MENU HANDLER END
 
     return ( 
         <div className={styles.container}>
@@ -115,15 +217,13 @@ const Dashboard = () => {
                 <input className={styles.inputField} placeholder="Search"></input>
             </div>
 
-
-
-
-
             <Table aria-label="simple table">
                 <colgroup>
-                    <col width="auto" />
-                    <col width="auto" />
-                    <col width="auto" />
+                    <col></col>
+                    <col width="20%"></col>
+                    <col width="15%"></col>
+                    <col width="10%"></col>
+                    <col width="20%"></col>
                 </colgroup>
                 <TableHead>
                     <TableRow className={styles.tableRow}>
@@ -138,21 +238,8 @@ const Dashboard = () => {
                                 <div className={styles.tableHeaderActions}>
                                     <div className={styles.action}>
                                         <Tooltip arrow title="Sort" placement="top">
-                                            <ImportExportIcon onClick={handleClick}></ImportExportIcon>
+                                            <ImportExportIcon onClick={() => sortTickets("priority")}></ImportExportIcon>
                                         </Tooltip>
-                                        
-                                        <Menu
-                                            id="simple-menu"
-                                            anchorEl={anchorEl}
-                                            keepMounted
-                                            open={Boolean(anchorEl)}
-                                            onClose={handleClose}
-                                        >
-                                            <MenuItem onClick={handleClose}>High</MenuItem>
-                                            <MenuItem onClick={handleClose}>Medium</MenuItem>
-                                            <MenuItem onClick={handleClose}>Low</MenuItem>
-                                        </Menu>
-                                        
                                     </div>
                                     <div className={styles.action}>
                                         <Tooltip arrow title="Filter" placement="top">
@@ -165,9 +252,16 @@ const Dashboard = () => {
                                             open={Boolean(anchorEl)}
                                             onClose={handleClose}
                                         >
-                                            <MenuItem onClick={handleClose}>High</MenuItem>
-                                            <MenuItem onClick={handleClose}>Medium</MenuItem>
-                                            <MenuItem onClick={handleClose}>Low</MenuItem>
+                                            <MenuItem onClick={() => handlePrioritySelect("")}>None</MenuItem>
+                                            <MenuItem onClick={() => handlePrioritySelect(priorities.HIGH)}>
+                                                <Chip type="basic" color={red}>High</Chip>
+                                            </MenuItem>
+                                            <MenuItem onClick={() => handlePrioritySelect(priorities.MEDIUM)}>
+                                                <Chip type="basic" color={orange}>Medium</Chip>
+                                            </MenuItem>
+                                            <MenuItem onClick={() => handlePrioritySelect(priorities.LOW)}>
+                                                <Chip type="basic" color={green}>Low</Chip>
+                                            </MenuItem>
                                         </Menu>
                                     </div>
                                 </div>
@@ -178,12 +272,14 @@ const Dashboard = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
+
                     {/* TICKET MAPPER BEGIN*/}
-                    {tickets.map((row, i) => (
-                        <Ticket ticketInfo={row} key={i}></Ticket>
+                    {filteredTickets.length <= 0 ? tickets.map((ticket, i) => (
+                        <Ticket ticketInfo={ticket} key={i} id={i} toggleOpen={toggleOpen}></Ticket>
+                    )) : filteredTickets.map((ticket, i) => (
+                        <Ticket ticketInfo={ticket} key={i} id={i} toggleOpen={toggleOpen}></Ticket>
                     ))}
                     {/* TICKET MAPPER END*/}
-
                     
                 </TableBody>
             </Table>

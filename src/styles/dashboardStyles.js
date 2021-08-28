@@ -214,8 +214,6 @@ export const useDashboardStyles = makeStyles(() => ({
         transform: "rotate(45deg)",
         borderRadius: "4px"
     },
-    chipRoot:{
-    },
     assigneeChip:{
         '& span':{
             transition:'0.25s ease',
