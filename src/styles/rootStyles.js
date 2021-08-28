@@ -1,9 +1,10 @@
 export const rootStyles = {
     darkestBlue: "#091133",
     darkBlue: "#424E7D",
-    blue: "#505F98",
+    blue: "#0065d9",
     white: "#FFF",
     red: "#ff3d3d",
-    green: "#61c449",
-    orange: "#ffb34f"
+    green: "#00bf13",
+    orange: "#ff7700",
+    yellow: "#e0dd00"
 }

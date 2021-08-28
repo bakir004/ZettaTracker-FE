@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { useDashboardStyles } from "../styles/dashboardStyles"
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -19,9 +18,10 @@ import { rootStyles } from "../styles/rootStyles"
 
 const { red, orange, green } = rootStyles;
 
-const Dashboard = () => {
+const DashboardEmployee = () => {
     const styles = useDashboardStyles();
     const [activeTab, setActiveTab] = useState(0);
+    // eslint-disable-next-line
     const [tabs, setTabs] = useState(["Projects", "My tickets", "Closed tickets", "Ticket timeline"]);
     const [tickets, setTickets] = useState(
         [
@@ -161,6 +161,9 @@ const Dashboard = () => {
                 }
                 break;
             }
+            default: {
+                return null
+            }
         }
         setTickets([...ticketsCopy])
         setSorted(true)
@@ -201,13 +204,13 @@ const Dashboard = () => {
         <div className={styles.container}>
             <div className={styles.headerWithTabs}>
                 <div className={styles.communityImageDiv}>
-                    <img className={styles.communityImage} src="https://source.unsplash.com/random/300x300"></img>
+                    <img className={styles.communityImage} src="https://source.unsplash.com/random/300x300" alt="Community"></img>
                 </div>
                 <div className={styles.communityNameWithTabs}>
                     <div className={styles.communityName}>ZettaFirm - QE23OP</div>
                     <div className={styles.tabs}>
                         {tabs ? tabs.map((item, i) => {
-                            return <div className={activeTab === i ? styles.activeTab : styles.inactiveTab} onClick={() => setActiveTab(i)}>{item}</div>
+                            return <div key={i} className={activeTab === i ? styles.activeTab : styles.inactiveTab} onClick={() => setActiveTab(i)}>{item}</div>
                         }) : null}
                     </div>
                 </div>
@@ -287,4 +290,4 @@ const Dashboard = () => {
      );
 }
  
-export default Dashboard;
+export default DashboardEmployee;

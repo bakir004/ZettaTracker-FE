@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { rootStyles } from "./rootStyles";
 
-const { darkBlue, darkestBlue, blue } = rootStyles;
+const { darkBlue, darkestBlue } = rootStyles;
 
 export const useDashboardStyles = makeStyles(() => ({
     container: {
@@ -118,32 +118,9 @@ export const useDashboardStyles = makeStyles(() => ({
         lineHeight: "1rem",
         fontFamily: "Montserrat",
         fontWeight: "500",
-    },
-    table: {
-        backgroundColor: "grey",
-    },
+    },  
     ticket: {
         transition: "0.25s",
-        borderBottom: "1px solid #d1d1d1",
-        borderLeft: "1px solid #d1d1d1",
-        "& > th": {
-            padding: "12px 12px",
-            fontFamily: "Montserrat",
-            fontWeight: "600",
-            color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
-        },
-        "& > td": {
-            padding: "12px 12px",
-            fontWeight: "500",
-            fontFamily: "Montserrat",
-            color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
-        }
-    },
-    closedTicket: {
-        transition: "0.25s",
-        display: "none",
         borderBottom: "1px solid #d1d1d1",
         borderLeft: "1px solid #d1d1d1",
         "& > th": {
@@ -192,15 +169,24 @@ export const useDashboardStyles = makeStyles(() => ({
     },
     tableHeaderActions: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        height: "30px"
     },
     action: {
-        height: "24px",
+        height: "30px",
+        width: "30px",
         cursor: "pointer",
         borderRadius: "50px",
         transition: "0.25s",
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
         "&:hover": {
             backgroundColor: "lightgrey"
+        },
+        "& > svg": {
+            height: "26px",
+            width: "26px"
         }
     },
     iconCell: {

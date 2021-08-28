@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { rootStyles } from "./rootStyles";
 
-const { darkBlue, darkestBlue, blue } = rootStyles;
+const { darkestBlue } = rootStyles;
 
 export const useTicketStyles = makeStyles(() => ({
     tableRow: {
@@ -76,6 +76,7 @@ export const useTicketStyles = makeStyles(() => ({
         height: "30px",
         display: "flex",
         justifyContent: "space-between",
+        alignItems: "center",
         fontWeight: "600"
     },
     actions: {
