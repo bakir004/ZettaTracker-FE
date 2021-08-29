@@ -1,26 +1,23 @@
 import { makeStyles } from "@material-ui/core";
 import { rootStyles } from "./rootStyles";
 
-const { darkestBlue } = rootStyles;
+const { darkestBlue, blue } = rootStyles;
 
 export const useTicketStyles = makeStyles(() => ({
     tableRow: {
         height: "40px",
         borderBottom: "1px solid #d1d1d1",
-        borderLeft: "1px solid #d1d1d1",
         "& > th": {
             padding: "12px 12px",
             fontFamily: "Montserrat",
             fontWeight: "600",
             color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
         },
         "& > td": {
             padding: "12px 12px",
             fontWeight: "400",
             fontFamily: "Montserrat",
             color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
         }
     },
     iconCell: {
@@ -29,12 +26,6 @@ export const useTicketStyles = makeStyles(() => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
-        cursor:"pointer",
-        transition: "0.25s",
-        borderRadius: "50px",
-        "&:hover": {
-            backgroundColor: "lightgrey"
-        }
     },
     icon: {
         width: "100%",
@@ -42,31 +33,45 @@ export const useTicketStyles = makeStyles(() => ({
         borderRadius: "4px",
         transition: "0.25s"
     },
-    rotatedIcon: {
-        width: "100%",
-        height: "100%",
-        borderRadius: "4px",
-        transition: "0.25s",
-        transform: "rotate(-180deg)"
-    },
     ticket: {
         transition: "0.25s",
-        borderBottom: "1px solid #d1d1d1",
-        borderLeft: "1px solid #d1d1d1",
         "& > th": {
             padding: "12px 12px",
             fontFamily: "Montserrat",
             fontWeight: "600",
             color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
         },
         "& > td": {
             padding: "12px 12px",
             fontWeight: "500",
             fontFamily: "Montserrat",
             color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
         }
+    },
+    ticketTitleDiv: {
+        display: "flex",
+        cursor: "pointer",
+        transition: "0.125s",
+        alignItems: "center",
+        justifyContent: "space-between",
+        "&:hover": {
+            color: blue,
+            "& div:nth-child(2) svg": {
+                opacity:"1",
+                color: blue
+            }
+        }
+    },
+    ticketTitleIconDiv: {
+        height: "20px"
+    },
+    ticketTitleExpandIcon: {
+        transform: "rotate(270deg)",
+        width: "20px",
+        height: "20px",
+        opacity: "0",
+        transition: "0.125s",
+        color: darkestBlue
     },
     imagesAndActionsCell: {
         width: "100%",
@@ -96,5 +101,20 @@ export const useTicketStyles = makeStyles(() => ({
         "&:hover": {
             backgroundColor: "lightgrey"
         }
-    }
+    },
+    content: {
+        marginTop: "10px"
+    },
+    button: {
+        lineHeight: "30px",
+        margin: "0 10px",
+        padding: "0 15px",
+        borderRadius: "100px",
+        transition: "0.25s",    
+        cursor:"pointer",
+        color: blue,
+        "&:hover": {
+            backgroundColor: "lightgrey",
+        }
+    },
 }))

@@ -7,13 +7,15 @@ const Header = () => {
     const styles = useHeaderStyles();
     return ( 
         <div className={styles.container}>
-            <Link to="/">
-                <img src={Logo} className={styles.headerLogo} alt="logo"></img>
-            </Link>
             <div className={styles.halfHeader1}>
                 <Link to="/" className={styles.button}>Home</Link>
                 <Link to="/about" className={styles.button}>About</Link>
                 <Link to="/contact" className={styles.button}>Contact</Link>
+            </div>
+            <div className={styles.headerLogoDiv}>
+                <Link to="/">
+                    <img src={Logo} className={styles.headerLogo} alt="logo"></img>
+                </Link>
             </div>
             <div className={styles.halfHeader2}>
                 <Link to="/login" className={styles.button}>Login</Link>

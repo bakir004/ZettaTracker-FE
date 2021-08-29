@@ -1,28 +1,51 @@
 import React, {useState} from 'react';
 import { useDashboardStyles } from "../styles/dashboardStyles"
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import ImportExportIcon from '@material-ui/icons/ImportExport';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Image from "../assets/image.png"
-import Ticket from "./ticket";
-import Tooltip from '@material-ui/core/Tooltip';
 import { priorities, statuses } from './ticketEnums';
-import Chip from "./chip"
 import { rootStyles } from "../styles/rootStyles"
+import TicketDrawer from './ticketDrawer';
+import CloseIcon from '@material-ui/icons/Close';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { MuiThemeProvider } from '@material-ui/core';
+import { createTheme } from '@material-ui/core';
+import SwipeableViews from 'react-swipeable-views';
+import DashboardTable from './dashboardTable';
+import ZettaTrackerTimeline from './zettaTrackerTimeline';
 
-const { red, orange, green } = rootStyles;
+const { blue } = rootStyles;
 
-const DashboardEmployee = () => {
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`full-width-tabpanel-${index}`}
+            aria-labelledby={`full-width-tab-${index}`}
+            {...other}
+        >
+        {value === index && (
+            <>
+                {children}
+            </>
+        )}
+        </div>
+    );
+}
+
+const Dashboard = () => {
     const styles = useDashboardStyles();
-    const [activeTab, setActiveTab] = useState(0);
+    const theme = createTheme({
+        palette: {
+            primary: {
+                main: blue
+            }
+        }
+    });
     // eslint-disable-next-line
-    const [tabs, setTabs] = useState(["Projects", "My tickets", "Closed tickets", "Ticket timeline"]);
+    const [tabs, setTabs] = useState(["Projects", "My tickets", "Closed tickets", "ZettaTracker timeline"]);
     const [tickets, setTickets] = useState(
         [
             {
@@ -86,7 +109,7 @@ const DashboardEmployee = () => {
                 open: false,
             },
             {
-                name: "Finish BRUH",
+                name: "Finish BRUH asdasdasd lala hahah bake bake kuchen",
                 description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 priority: priorities.LOW,
                 dueDate: new Date(),
@@ -99,7 +122,7 @@ const DashboardEmployee = () => {
             },
             {
                 name: "Create UI",
-                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                description: "Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 priority: priorities.HIGH,
                 dueDate: new Date(),
                 status: statuses.OPEN,
@@ -135,9 +158,9 @@ const DashboardEmployee = () => {
             },
         ]
     )
-    const [filteredTickets, setFilteredTickets] = useState([])
-    const [sorted, setSorted] = useState(false)
 
+    //#region FILTER AND SORT
+    const [sorted, setSorted] = useState(false)
     const sortTickets = (criteria) => {
         let ticketsCopy = [];
         let index = 0;
@@ -168,37 +191,73 @@ const DashboardEmployee = () => {
         setTickets([...ticketsCopy])
         setSorted(true)
     }
-
-    const handlePrioritySelect = (priority) => {
-        if(priority) {
-            const filtered = tickets.filter(item => item.priority === priority)
-            setFilteredTickets([...filtered])
-            setAnchorEl(null);
-        } else {
-            setFilteredTickets([])
-            setAnchorEl(null);
+    const [filteredTickets, setFilteredTickets] = useState([])
+    const handleFiltering = (criteriaName, criteriaValue) => {
+        switch(criteriaName) {
+            case "priority": {
+                if(criteriaValue) {
+                    const filtered = tickets.filter(item => item.priority === criteriaValue)
+                    setFilteredTickets([...filtered])
+                    setAnchorEl(null);
+                } else {
+                    setFilteredTickets([])
+                    setAnchorEl(null);
+                }
+                break;
+            }
+            default: {
+                return
+            }
         }
     }
+    //#endregion
 
-    // MENU HANDLER BEGIN
+    //#region MENU HANDLERS
 
     const [anchorEl, setAnchorEl] = useState(null);
-
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-
     const handleClose = () => {
         setAnchorEl(null);
     };
 
-    const toggleOpen = (id) => {
-        const ticketsCopy = tickets;
-        ticketsCopy[id].open = !ticketsCopy[id].open;
-        setTickets([...ticketsCopy])
-    }
+    //#endregion
 
-    // MENU HANDLER END
+    //#region DRAWER HANDLER
+    const [openDrawer, setOpenDrawer] = useState(false)
+    const [ticketInfo, setTicketInfo] = useState({})
+    const toggleDrawer = (open, ticketInfo) => {
+        setOpenDrawer(open)
+        setTicketInfo(ticketInfo)
+    }
+    //#endregion
+
+    //#region SEARCH
+    const [search, setSearch] = useState("")
+    const handleSearchChange = (string) => {
+        setSearch(string)
+        let filteredTickets = tickets.filter((item) => 
+            item.name.toLowerCase().includes(string.toLowerCase()) ||
+            item.priority.toLowerCase().includes(string.toLowerCase()) ||
+            item.status.toLowerCase().includes(string.toLowerCase()) ||
+            item.assignee.name.toLowerCase().includes(string.toLowerCase())
+        )
+        setFilteredTickets([...filteredTickets])
+    }
+    //#endregion
+
+    //#region TABULATION
+
+    const [value, setValue] = useState(0);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+    const handleChangeIndex = (index) => {
+        setValue(index);
+    };
+
+    //#endregion
 
     return ( 
         <div className={styles.container}>
@@ -209,85 +268,82 @@ const DashboardEmployee = () => {
                 <div className={styles.communityNameWithTabs}>
                     <div className={styles.communityName}>ZettaFirm - QE23OP</div>
                     <div className={styles.tabs}>
-                        {tabs ? tabs.map((item, i) => {
-                            return <div key={i} className={activeTab === i ? styles.activeTab : styles.inactiveTab} onClick={() => setActiveTab(i)}>{item}</div>
-                        }) : null}
+                        <MuiThemeProvider theme={theme}>
+                            <Tabs
+                                classes={{root: styles.tabsRoot, indicator: styles.tabsIndicator}}
+                                value={value}
+                                indicatorColor="primary"
+                                textColor="primary"
+                                onChange={handleChange}
+                                aria-label="disabled tabs example"
+                            >
+                                {tabs ? tabs.map((item, i) => {
+                                    return <Tab key={i} classes={{root: styles.tabRoot}} label={item}></Tab>
+                                }) : null}
+                            </Tabs>
+                        </MuiThemeProvider>
                     </div>
                 </div>
             </div>
-            <div className={styles.headerWithActions}>
-                <div className={styles.addTicket}>+ Add ticket</div>
-                <input className={styles.inputField} placeholder="Search"></input>
-            </div>
-
-            <Table aria-label="simple table">
-                <colgroup>
-                    <col></col>
-                    <col width="20%"></col>
-                    <col width="15%"></col>
-                    <col width="10%"></col>
-                    <col width="20%"></col>
-                </colgroup>
-                <TableHead>
-                    <TableRow className={styles.tableRow}>
-                        <TableCell className={styles.iconCell}>
-                            <div className={styles.icon}></div>
-                        </TableCell>
-                        <TableCell>Ticket name</TableCell>
-                        <TableCell>Assignee</TableCell>
-                        <TableCell>
-                            <div className={styles.tableHeaderCell}>
-                                <div className={styles.tableHeaderCellText}>Priority</div>
-                                <div className={styles.tableHeaderActions}>
-                                    <div className={styles.action}>
-                                        <Tooltip arrow title="Sort" placement="top">
-                                            <ImportExportIcon onClick={() => sortTickets("priority")}></ImportExportIcon>
-                                        </Tooltip>
-                                    </div>
-                                    <div className={styles.action}>
-                                        <Tooltip arrow title="Filter" placement="top">
-                                            <FilterListIcon onClick={handleClick}></FilterListIcon>
-                                        </Tooltip>
-                                        <Menu
-                                            id="simple-menu"
-                                            anchorEl={anchorEl}
-                                            keepMounted
-                                            open={Boolean(anchorEl)}
-                                            onClose={handleClose}
-                                        >
-                                            <MenuItem onClick={() => handlePrioritySelect("")}>None</MenuItem>
-                                            <MenuItem onClick={() => handlePrioritySelect(priorities.HIGH)}>
-                                                <Chip type="basic" color={red}>High</Chip>
-                                            </MenuItem>
-                                            <MenuItem onClick={() => handlePrioritySelect(priorities.MEDIUM)}>
-                                                <Chip type="basic" color={orange}>Medium</Chip>
-                                            </MenuItem>
-                                            <MenuItem onClick={() => handlePrioritySelect(priorities.LOW)}>
-                                                <Chip type="basic" color={green}>Low</Chip>
-                                            </MenuItem>
-                                        </Menu>
-                                    </div>
-                                </div>
+            <SwipeableViews
+                axis={'x'}
+                index={value}
+                onChangeIndex={handleChangeIndex}
+            >
+                <TabPanel value={value} index={0}>
+                    <div className={styles.headerWithActions}>
+                        <div className={styles.addTicket}>Add ticket</div>
+                        <div className={styles.inputFieldDiv}>
+                            <input className={styles.inputField} placeholder="Search" value={search} onChange={(e) => handleSearchChange(e.target.value)}></input>
+                            <div className={styles.inputClear} onClick={() => handleSearchChange("")}>
+                                <CloseIcon></CloseIcon>
                             </div>
-                        </TableCell>
-                        <TableCell>Due date</TableCell>
-                        <TableCell>Status</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
+                        </div>
+                    </div>
+                    <DashboardTable 
+                        tickets={tickets} 
+                        filteredTickets={filteredTickets} 
+                        handleClick={handleClick} 
+                        handleClose={handleClose} 
+                        handleFiltering={handleFiltering}
+                        anchorEl={anchorEl}
+                        toggleDrawer={toggleDrawer}
+                        sortTickets={sortTickets}
+                    ></DashboardTable>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <DashboardTable 
+                        tickets={tickets} 
+                        filteredTickets={filteredTickets} 
+                        handleClick={handleClick} 
+                        handleClose={handleClose} 
+                        handleFiltering={handleFiltering}
+                        anchorEl={anchorEl}
+                        toggleDrawer={toggleDrawer}
+                        sortTickets={sortTickets}
+                    ></DashboardTable>
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <DashboardTable 
+                        tickets={tickets} 
+                        filteredTickets={filteredTickets} 
+                        handleClick={handleClick} 
+                        handleClose={handleClose} 
+                        handleFiltering={handleFiltering}
+                        anchorEl={anchorEl}
+                        toggleDrawer={toggleDrawer}
+                        sortTickets={sortTickets}
+                    ></DashboardTable>
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                </TabPanel>
+            </SwipeableViews>
 
-                    {/* TICKET MAPPER BEGIN*/}
-                    {filteredTickets.length <= 0 ? tickets.map((ticket, i) => (
-                        <Ticket ticketInfo={ticket} key={i} id={i} toggleOpen={toggleOpen}></Ticket>
-                    )) : filteredTickets.map((ticket, i) => (
-                        <Ticket ticketInfo={ticket} key={i} id={i} toggleOpen={toggleOpen}></Ticket>
-                    ))}
-                    {/* TICKET MAPPER END*/}
-                    
-                </TableBody>
-            </Table>
+            
+            
+            <TicketDrawer ticketInfo={ticketInfo} open={openDrawer} toggleDrawer={toggleDrawer}></TicketDrawer>
         </div>
      );
 }
  
-export default DashboardEmployee;
+export default Dashboard;

@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { rootStyles } from "./rootStyles";
 
-const { darkBlue, darkestBlue } = rootStyles;
+const { darkBlue, darkestBlue, blue } = rootStyles;
 
 export const useDashboardStyles = makeStyles(() => ({
     container: {
@@ -32,38 +32,25 @@ export const useDashboardStyles = makeStyles(() => ({
     communityName: {
         fontWeight: "600",
         fontSize: "1.5rem",
-        height: "2.5rem",
+        height: "2rem",
         marginTop: "0.5rem",
         paddingLeft: "0.5rem"
     },
     tabs: {
-        height: "2rem",
+        height: "2.5rem",
         width: "100%",
-        display: "flex"
-    },
-    activeTab: {
         display: "flex",
-        width: "fit-content",
-        height: "100%",
-        alignItems: "center",
-        padding: "0 0.5rem",
-        borderBottom: "3px solid " + darkBlue,
-        boxSizing: "border-box",
+        fontSize: "0.8125rem",
         fontWeight: "500",
-        color: darkBlue,
-        cursor: "pointer",
     },
-    inactiveTab: {
-        display: "flex",
-        width: "fit-content",
-        height: "100%",
-        alignItems: "center",
-        padding: "0 0.5rem",
-        paddingBottom: "3px",
-        boxSizing: "border-box",
-        fontWeight: "400",
-        color: darkestBlue,
-        cursor: "pointer"
+    tabsRoot: {
+        minHeight: "2.5rem",
+    },
+    tabRoot: {
+        fontFamily: "montserrat",
+        minHeight: "2.5rem",
+        minWidth: "80px",
+        padding: "0 20px"
     },
     headerWithActions: {
         display: "flex",
@@ -71,18 +58,36 @@ export const useDashboardStyles = makeStyles(() => ({
         borderBottom: "1px solid #d1d1d1"
     },
     addTicket: {
-        height: "1rem",
-        margin: "1rem 0.5rem",
-        lineHeight: "1rem",
+        margin: "auto 1rem",
         fontWeight: "600",
-        padding: "0.375rem 0.75rem",
-        border: "2px solid " + darkestBlue,
-        borderRadius: "5px",
         cursor: "pointer",
         transition: "0.25s",
+        color: blue,
+        padding: "0.25rem 0.75rem",
+        borderRadius: "100px",
         "&:hover": {
-            backgroundColor: darkestBlue,
-            color: "white"
+            backgroundColor:"lightgrey",
+        }
+    },
+    inputFieldDiv: {
+        position: "relative"
+    },
+    inputClear: {
+        position: "absolute",
+        right: "10px",
+        top: "50%",
+        transform: "translate(0, -50%)",
+        width: "28px",
+        height: "28px",
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
+        cursor: "pointer",
+        color: darkestBlue,
+        opacity: "0.8",
+        transition: "0.25s",
+        "&:hover": {
+            opacity: "1"
         }
     },
     inputField: {
@@ -92,70 +97,29 @@ export const useDashboardStyles = makeStyles(() => ({
         fontFamily: "Montserrat",
         fontWeight: "500",
         padding: "0.375rem 0.75rem",
+        paddingRight: "28px",
         border: "2px solid " + darkestBlue,
         borderRadius: "4px",
         "&::placeholder": {
             color: darkestBlue,
             opacity: "0.8"
         }
-    },
-    selectField: {
-        margin: "1rem 0.5rem",
-        fontSize: "1rem",
-        lineHeight: "100%",
-        fontFamily: "Montserrat",
-        fontWeight: "500",
-        padding: "0.25rem 0.75rem",
-        border: "2px solid " + darkestBlue,
-        borderRadius: "4px",
-    },
-    filterLabel: {
-        display: "flex",
-        alignItems: "center",
-        margin: "1rem 0.5rem",
-        marginLeft: "2rem",
-        fontSize: "1rem",
-        lineHeight: "1rem",
-        fontFamily: "Montserrat",
-        fontWeight: "500",
-    },  
-    ticket: {
-        transition: "0.25s",
-        borderBottom: "1px solid #d1d1d1",
-        borderLeft: "1px solid #d1d1d1",
-        "& > th": {
-            padding: "12px 12px",
-            fontFamily: "Montserrat",
-            fontWeight: "600",
-            color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
-        },
-        "& > td": {
-            padding: "12px 12px",
-            fontWeight: "500",
-            fontFamily: "Montserrat",
-            color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
-        }
-    },
+    },    
     tableRow: {
         height: "40px",
         borderBottom: "1px solid #d1d1d1",
-        borderLeft: "1px solid #d1d1d1",
         "& > th": {
             padding: "12px 12px",
             fontFamily: "Montserrat",
             fontWeight: "600",
             color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
+            fontSize: "1rem"
         },
         "& > td": {
             padding: "12px 12px",
             fontWeight: "400",
             fontFamily: "Montserrat",
             color: darkestBlue,
-            borderRight: "1px solid #d1d1d1"
-
         }
     },
     tableHeaderCell: {
@@ -165,7 +129,7 @@ export const useDashboardStyles = makeStyles(() => ({
     },
     tableHeaderCellText: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
     },
     tableHeaderActions: {
         display: "flex",
@@ -214,5 +178,76 @@ export const useDashboardStyles = makeStyles(() => ({
     },
     avatarChip: {
         fontFamily: "montserrat",
-    }
+    },
+    drawerDiv: {
+        width: "400px",
+        height: "100%",
+        padding: "20px",
+        fontFamily: "montserrat",
+        textAlign: "center"
+    },
+    drawerTitleAndIcon: {
+        display: "inline-flex",
+    },
+    drawerTitle: {
+        paddingLeft: "5px",
+        fontSize: "1.125rem",
+        lineHeight: "2rem",
+        fontWeight: "500",
+        marginBottom: "30px"
+    },
+    drawerIconDiv: {
+        height: "2rem",
+        width: "2rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around"
+    },
+    drawerIcon: {
+        height: "1.5rem",
+        width: "1.5rem"
+    },
+    drawerDescription: {
+        fontSize: "0.9125rem"
+    },
+    drawerTable: {
+        width: "90%",
+        margin: "20px auto"
+    },
+    drawerTableRow: {
+        display: "flex",
+        height: "2rem",
+        margin:"5px 0"
+    },
+    drawerTableRowLeftCell: {
+        fontWeight: "500",
+        width: "50%",
+        textAlign: "right",
+        lineHeight: "2rem",
+        paddingRight: "10px"
+    },
+    drawerTableRowRightCell: {
+        width: "50%",
+        textAlign: "left",
+        paddingLeft: "10px",
+        lineHeight: "2rem"
+    },
+    button: {
+        lineHeight: "30px",
+        margin: "0 auto",
+        padding: "0 15px",
+        borderRadius: "100px",
+        display: "inline-flex",
+        alignItems: "center",
+        transition: "0.25s",    
+        cursor:"pointer",
+        color: blue,
+        fontWeight: "500",
+        "&:hover": {
+            backgroundColor: "lightgrey",
+        }
+    },
+    buttonExpandIcon: {
+        transform: "rotate(270deg)",
+    },
 }))

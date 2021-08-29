@@ -5,14 +5,11 @@ export const lightenColor = (hex) => {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : null;
-    console.log(res)
     const colorFactor = 20;
     res.r = res.r + colorFactor >= 255 ? 255 : res.r + colorFactor;
     res.g = res.g + colorFactor >= 255 ? 255 : res.g + colorFactor;
     res.b = res.b + colorFactor >= 255 ? 255 : res.b + colorFactor;
-    console.log(res)
     res = rgbToHex(res)
-    console.log(res)
     return res;
 
 }
