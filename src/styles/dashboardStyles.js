@@ -11,7 +11,7 @@ export const useDashboardStyles = makeStyles(() => ({
     headerWithTabs: {
         display: "flex",
         height: "5rem",
-        borderBottom: "1px solid #d1d1d1"
+        borderBottom: "1px solid #d1d1d1",
     },
     communityImageDiv: {
         width: "5rem",

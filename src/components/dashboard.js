@@ -11,7 +11,7 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { createTheme } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import DashboardTable from './dashboardTable';
-import ZettaTrackerTimeline from './zettaTrackerTimeline';
+import DashboardProjects from './dashboardProjects';
 
 const { blue } = rootStyles;
 
@@ -45,7 +45,7 @@ const Dashboard = () => {
         }
     });
     // eslint-disable-next-line
-    const [tabs, setTabs] = useState(["Projects", "My tickets", "Closed tickets", "ZettaTracker timeline"]);
+    const [tabs, setTabs] = useState(["My tickets", "My projects", "Closed tickets", "ZettaTracker timeline"]);
     const [tickets, setTickets] = useState(
         [
             {
@@ -312,16 +312,7 @@ const Dashboard = () => {
                     ></DashboardTable>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <DashboardTable 
-                        tickets={tickets} 
-                        filteredTickets={filteredTickets} 
-                        handleClick={handleClick} 
-                        handleClose={handleClose} 
-                        handleFiltering={handleFiltering}
-                        anchorEl={anchorEl}
-                        toggleDrawer={toggleDrawer}
-                        sortTickets={sortTickets}
-                    ></DashboardTable>
+                    <DashboardProjects></DashboardProjects>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <DashboardTable 
