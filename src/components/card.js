@@ -10,7 +10,7 @@ import ShareIcon from '@material-ui/icons/Share';
 const Card = (props) => {
     const styles = useCardStyles()
     return (
-        <Paper className={styles.cardContainer} elevation={7}>
+        <Paper className={styles.cardContainer} elevation={5}>
             <div className={styles.cardHeader}>
                 <div className={styles.cardHeaderIconWrapper}>
                     <AssignmentOutlinedIcon className={styles.cardHeaderIcon}></AssignmentOutlinedIcon>

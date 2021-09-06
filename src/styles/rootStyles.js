@@ -3,7 +3,7 @@ export const rootStyles = {
     darkBlue: "#00489c",
     blue: "#0065d9",
     white: "#FFF",
-    red: "#ff3d3d",
+    red: "#ff0000",
     green: "#00bf13",
     orange: "#ff7700",
     yellow: "#e0dd00",
