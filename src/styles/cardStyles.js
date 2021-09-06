@@ -24,7 +24,7 @@ export const useCardStyles = makeStyles(() => ({
     },
     cardHeaderIcon: {
         width: "32px",
-        height: "32px"
+        height: "32px",
     },
     cardTitleAndSubtitle: {
         marginLeft: "12px"
@@ -84,16 +84,17 @@ export const useCardStyles = makeStyles(() => ({
         alignItems: "center",
         justifyContent: "space-around",
         borderRadius: "100px",
+        transition: "0.25s",
+        cursor: "pointer",
         "&:hover": {
-            backgroundColor: "lightgrey"
+            backgroundColor: "lightgrey",
+            "& svg": {
+                opacity: "1"
+            }
         }
     },
     cardIcon: {
         opacity: "0.8",
-        cursor: "pointer",
-        "&:hover": {
-            opacity: "1"
-        },
         width: "22px",
         height: "22px",
     }
