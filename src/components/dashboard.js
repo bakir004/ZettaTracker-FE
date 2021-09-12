@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDashboardStyles } from "../styles/dashboardStyles"
-import Image from "../assets/image.png"
-import { priorities, statuses } from './ticketEnums';
+import { priorities } from './ticketEnums';
 import { rootStyles } from "../styles/rootStyles"
 import TicketDrawer from './ticketDrawer';
 import CloseIcon from '@material-ui/icons/Close';
@@ -12,6 +11,8 @@ import { createTheme } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import DashboardTable from './dashboardTable';
 import DashboardProjects from './dashboardProjects';
+import axios from "axios"
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const { blue } = rootStyles;
 
@@ -35,7 +36,7 @@ function TabPanel(props) {
     );
 }
 
-const Dashboard = () => {
+const Dashboard = (props) => {
     const styles = useDashboardStyles();
     const theme = createTheme({
         palette: {
@@ -46,118 +47,32 @@ const Dashboard = () => {
     });
     // eslint-disable-next-line
     const [tabs, setTabs] = useState(["My tickets", "My projects", "Closed tickets", "ZettaTracker timeline"]);
-    const [tickets, setTickets] = useState(
-        [
-            {
-                name: "Create bro",
-                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                priority: priorities.HIGH,
-                dueDate: new Date(),
-                status: statuses.OPEN,
-                assignee: {
-                    name: "Zakir Cinjarevic",
-                    image: Image
-                },
-                open: false,
-            },
-            {
-                name: "Make ligma",
-                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                priority: priorities.MEDIUM,
-                dueDate: new Date(),
-                status: statuses.IN_PROGRESS,
-                assignee: {
-                    name: "Zakir Cinjarevic",
-                    image: Image
-                },
-                open: false,
-            },
-            {
-                name: "Finish wigga",
-                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                priority: priorities.LOW,
-                dueDate: new Date(),
-                status: statuses.CLOSED,
-                assignee: {
-                    name: "Zakir Cinjarevic",
-                    image: Image
-                },
-                open: false,
-            },
-            {
-                name: "Create BRUH",
-                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                priority: priorities.HIGH,
-                dueDate: new Date(),
-                status: statuses.OPEN,
-                assignee: {
-                    name: "Zakir Cinjarevic",
-                    image: Image
-                },
-                open: false,
-            },
-            {
-                name: "Make BRUH",
-                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                priority: priorities.MEDIUM,
-                dueDate: new Date(),
-                status: statuses.IN_PROGRESS,
-                assignee: {
-                    name: "Zakir Cinjarevic",
-                    image: Image
-                },
-                open: false,
-            },
-            {
-                name: "Finish BRUH asdasdasd lala hahah bake bake kuchen",
-                description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                priority: priorities.LOW,
-                dueDate: new Date(),
-                status: statuses.CLOSED,
-                assignee: {
-                    name: "Zakir Cinjarevic",
-                    image: Image
-                },
-                open: false,
-            },
-            {
-                name: "Create UI",
-                description: "Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                priority: priorities.HIGH,
-                dueDate: new Date(),
-                status: statuses.OPEN,
-                assignee: {
-                    name: "Zakir Cinjarevic",
-                    image: Image
-                },
-                open: false,
-            },
-            {
-                name: "Make Backend",
-                description: "Lorem I",
-                priority: priorities.MEDIUM,
-                dueDate: new Date(),
-                status: statuses.IN_PROGRESS,
-                assignee: {
-                    name: "Zakir Cinjarevic",
-                    image: Image
-                },
-                open: false,
-            },
-            {
-                name: "Finish frontend",
-                description: "nigga",
-                priority: priorities.LOW,
-                dueDate: new Date(),
-                status: statuses.CLOSED,
-                assignee: {
-                    name: "Zakir Cinjarevic",
-                    image: Image
-                },
-                open: false,
-            },
-        ]
-    )
+    const [tickets, setTickets] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        // props.history.push("/")
+        // console.log(window.location.pathname)
+        axios.get("http://localhost:3001/ticket")
+            .then(res => {
+                const data = res.data
+                data.forEach((ticket, i) => {
+                    axios.get(`http://localhost:3001/user/${ticket.assigneeId}`)
+                        .then(res => {
+                            data[i].assignee = res.data.firstName + " " + res.data.lastName
+                            setTickets(data)
+                        })
+                })
+            })
+    }, [])
+
+    useEffect(() => {
+        if(tickets.length > 0) {
+            setTimeout(() => {
+                setLoading(false)
+            }, 750)
+        }
+    }, [tickets.length])
 
     //#region FILTER AND SORT
     const [sorted, setSorted] = useState(false)
@@ -190,6 +105,7 @@ const Dashboard = () => {
         }
         setTickets([...ticketsCopy])
         setSorted(true)
+        handleClose()
     }
     const [filteredTickets, setFilteredTickets] = useState([])
     const handleFiltering = (criteriaName, criteriaValue) => {
@@ -209,6 +125,7 @@ const Dashboard = () => {
                 return
             }
         }
+        handleClose()
     }
     //#endregion
 
@@ -270,7 +187,7 @@ const Dashboard = () => {
                     <div className={styles.tabs}>
                         <MuiThemeProvider theme={theme}>
                             <Tabs
-                                classes={{root: styles.tabsRoot, indicator: styles.tabsIndicator}}
+                                classes={{ root: styles.tabsRoot }}
                                 value={value}
                                 indicatorColor="primary"
                                 textColor="primary"
@@ -300,6 +217,10 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
+                    {loading ? 
+                    <div className={styles.loadingContainer}>
+                        <CircularProgress classes={{root: styles.circularProgress}}/>
+                    </div> :
                     <DashboardTable 
                         tickets={tickets} 
                         filteredTickets={filteredTickets} 
@@ -309,7 +230,7 @@ const Dashboard = () => {
                         anchorEl={anchorEl}
                         toggleDrawer={toggleDrawer}
                         sortTickets={sortTickets}
-                    ></DashboardTable>
+                    ></DashboardTable>}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <DashboardProjects></DashboardProjects>

@@ -5,6 +5,7 @@ import Header from "./header"
 import LandingPage from './landingPage';
 import Login from "./login"
 import Signup from './signup';
+import TicketView from "./ticketView"
 
 function MainRouter() {
   return (
@@ -14,6 +15,7 @@ function MainRouter() {
         <Route path="/login" exact component={Login}></Route>
         <Route path="/signup" exact component={Signup}></Route>
         <Route path="/dashboard" exact component={Dashboard}></Route>
+        <Route path="/ticket/:ticketId" exact component={TicketView}></Route>
     </BrowserRouter>
   );
 }

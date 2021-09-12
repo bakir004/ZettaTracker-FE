@@ -22,7 +22,7 @@ const DashboardTable = (props) => {
     const styles = useDashboardTableStyles()
     
     return (
-        <Paper style={{maxHeight: "60vh", overflow: "scroll", scrollbarWidth: "thin"}}>
+        <Paper>
             <Table stickyHeader>
                 <colgroup>
                     <col></col>
@@ -57,9 +57,6 @@ const DashboardTable = (props) => {
                                             keepMounted
                                             open={Boolean(props.anchorEl)}
                                             onClose={props.handleClose}
-                                            MenuProps={{ disableScrollLock: false }}
-                                            disableScrollLock={false}
-                                            inputProps={{MenuProps: {disableScrollLock: true}}}
                                         >
                                             <MenuItem onClick={() => props.handleFiltering("priority", "")}>None</MenuItem>
                                             <MenuItem onClick={() => props.handleFiltering("priority", priorities.HIGH)}>

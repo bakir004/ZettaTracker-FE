@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { rootStyles } from "./rootStyles";
 
-const { darkestBlue, blue } = rootStyles;
+const { blue } = rootStyles;
 
 export const useCardStyles = makeStyles(() => ({
     cardContainer: {

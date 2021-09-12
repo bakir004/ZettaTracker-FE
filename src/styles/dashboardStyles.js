@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { rootStyles } from "./rootStyles";
 
-const { darkBlue, darkestBlue, blue } = rootStyles;
+const { darkestBlue, blue } = rootStyles;
 
 export const useDashboardStyles = makeStyles(() => ({
     container: {
@@ -250,4 +250,13 @@ export const useDashboardStyles = makeStyles(() => ({
     buttonExpandIcon: {
         transform: "rotate(270deg)",
     },
+    loadingContainer: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around",
+        height: "40vh"
+    },
+    circularProgress: {
+        color: blue
+    }
 }))

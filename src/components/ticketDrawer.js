@@ -28,7 +28,7 @@ const TicketDrawer = (props) => {
                     <div className={styles.drawerTableRow}>
                         <div className={styles.drawerTableRowLeftCell}>Priority</div>
                         <div className={styles.drawerTableRowRightCell}>
-                            <Chip type="basic" color={props.ticketInfo ? props.ticketInfo.priority === priorities.HIGH ? red : props.ticketInfo.priority === priorities.MEDIUM ? orange : green : "white"}>{props.ticketInfo ? props.ticketInfo.priority : ""}</Chip>
+                            <Chip type="basic" bgColor={props.ticketInfo ? props.ticketInfo.priority === priorities.HIGH ? red : props.ticketInfo.priority === priorities.MEDIUM ? orange : green : "white"}>{props.ticketInfo ? props.ticketInfo.priority : ""}</Chip>
                         </div>
                     </div>
                     <div className={styles.drawerTableRow}>
@@ -40,7 +40,7 @@ const TicketDrawer = (props) => {
                     <div className={styles.drawerTableRow}>
                         <div className={styles.drawerTableRowLeftCell}>Assignee</div>
                         <div className={styles.drawerTableRowRightCell}>
-                            <Chip type="avatar" color={blue}>{props.ticketInfo.assignee ? props.ticketInfo.assignee.name : ""}</Chip>
+                            <Chip type="avatar" bgColor={blue}>{props.ticketInfo.assigneeId ? props.ticketInfo.assigneeId : ""}</Chip>
                         </div>
                     </div>
                     <div className={styles.drawerTableRow}>
@@ -50,7 +50,7 @@ const TicketDrawer = (props) => {
                         </div>
                     </div>
                 </div>
-                <Link className={styles.button} to="/ticket/someid">View ticket 
+                <Link className={styles.button} to={`/ticket/${props.ticketInfo._id}`}>View ticket 
                     <ExpandMoreIcon className={styles.buttonExpandIcon}></ExpandMoreIcon>
                 </Link>
             </div>

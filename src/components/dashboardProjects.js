@@ -6,8 +6,8 @@ import Paper from '@material-ui/core/Paper';
 const DashboardProjects = (props) => {
     const styles = useDashboardProjectsStyles()
     return (
-        <div className={styles.container}>
-            <Paper style={{maxHeight: "65vh", overflow: "scroll", scrollbarWidth: "thin"}}>
+        <Paper>
+            <div className={styles.container}>
                 <div className={styles.cardListContainer}>
                     <Card></Card>
                     <Card></Card>
@@ -16,8 +16,8 @@ const DashboardProjects = (props) => {
                     <Card></Card>
                     <Card></Card>
                 </div>
-            </Paper>
-        </div>
+            </div>
+        </Paper>
     )
 }
 

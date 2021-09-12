@@ -20,7 +20,7 @@ const Header = () => {
             <div className={styles.halfHeader2}>
                 <Link to="/login" className={styles.button}>Login</Link>
                 <Link to="/signup" className={styles.button}>Sign up</Link>
-                <Link to="/report-bug" className={styles.button}>Report bug</Link>
+                <Link to="/dashboard" className={styles.button}>Dashboard</Link>
             </div>
         </div>
     );

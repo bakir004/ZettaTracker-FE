@@ -32,10 +32,10 @@ const Ticket = (props) => {
                 </div>
             </TableCell>
             <TableCell>
-                <Chip type="avatar" color={blue} avatar={props.ticketInfo.assignee.image} expandable={false}>{props.ticketInfo.assignee.name}</Chip>    
+                <Chip type="avatar" bgColor={blue} expandable={false}>{props.ticketInfo.assignee}</Chip>    
             </TableCell>
             <TableCell>
-                <Chip type="basic" color={props.ticketInfo.priority === priorities.HIGH ? red : props.ticketInfo.priority === priorities.MEDIUM ? orange : green}>{props.ticketInfo.priority}</Chip>
+                <Chip type="basic" bgColor={props.ticketInfo.priority === priorities.HIGH ? red : props.ticketInfo.priority === priorities.MEDIUM ? orange : green}>{props.ticketInfo.priority}</Chip>
             </TableCell>
             <TableCell>{formatDate(props.ticketInfo.dueDate)}</TableCell>
             <TableCell>{props.ticketInfo.status}</TableCell>

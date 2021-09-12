@@ -21,7 +21,7 @@ const Card = (props) => {
                 </div>
             </div>
             <div className={styles.cardImageWrapper}>
-                <img className={styles.cardImage} src="https://source.unsplash.com/random/525x300"></img>
+                <img className={styles.cardImage} src="https://source.unsplash.com/random/525x300" alt="Project"></img>
             </div>
             <div className={styles.cardDescAndActionWrapper}>
                 <div className={styles.cardDescription}>Description for project 1 lmao this is unimportant dont read this unless u gay hah gottem</div>
