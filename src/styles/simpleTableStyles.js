@@ -1,13 +1,13 @@
 import { makeStyles } from "@material-ui/core";
 
 export const useSimpleTableStyles = makeStyles(() => ({
-    mainInfoRow: {
+    tableRow: {
         width: "100%",
         display: "flex",
-        marginBottom: "5px",
+        paddingBottom: "5px",
         minHeight: "2rem"
     },
-    mainInfoField: {
+    tableField: {
         fontWeight: "500",
         minWidth: "100px",
         width: "35%",
@@ -15,7 +15,7 @@ export const useSimpleTableStyles = makeStyles(() => ({
         display: "flex",
         alignItems: "center"
     },
-    mainInfoValue: {
+    tableValue: {
         width: "65%",
         minWidth: "100px",
         paddingLeft: "5px",

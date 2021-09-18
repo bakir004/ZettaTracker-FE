@@ -5,8 +5,8 @@ const priorities = {
 }
 const statuses = {
     OPEN: "Open",
-    IN_PROGRESS: "In Progress",
+    IN_PROGRESS: "In progress",
     CLOSED: "Closed",
-    COMPLETED: "Completed"
+    COMPLETED: "Completed" 
 }
 export {priorities, statuses}

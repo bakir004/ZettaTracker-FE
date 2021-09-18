@@ -32,7 +32,7 @@ const Ticket = (props) => {
                 </div>
             </TableCell>
             <TableCell>
-                <Chip type="avatar" bgColor={blue} expandable={false}>{props.ticketInfo.assignee}</Chip>    
+                <Chip type="avatar" bgColor={blue} expandable={false}>{props.ticketInfo.assignee.firstName + " " + props.ticketInfo.assignee.lastName}</Chip>    
             </TableCell>
             <TableCell>
                 <Chip type="basic" bgColor={props.ticketInfo.priority === priorities.HIGH ? red : props.ticketInfo.priority === priorities.MEDIUM ? orange : green}>{props.ticketInfo.priority}</Chip>

@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, { useState } from 'react'
 import {useSubtaskStyles} from "../styles/subtaskStyles"
 import {rootStyles} from "../styles/rootStyles"
 import Paper from "@material-ui/core/Paper"
@@ -9,21 +9,14 @@ import Tooltip from "@material-ui/core/Tooltip"
 import { statuses } from './ticketEnums';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField'
 
 //eslint-disable-next-line
-const { darkestBlue, red, blue, green, orange } = rootStyles;
-
-const useFocus = () => {
-    const htmlElRef = useRef(null)
-    const setFocus = () => {htmlElRef.current &&  htmlElRef.current.focus()}
-
-    return [ htmlElRef, setFocus ] 
-}
+const { red, green, orange } = rootStyles;
 
 const Subtask = (props) => {
     const styles = useSubtaskStyles()
     const [editing, setEditing] = useState(false)
-    const [inputRef, setInputFocus] = useFocus()
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -43,24 +36,34 @@ const Subtask = (props) => {
         props.handleChange(e.target.value, props.index)
     }
     const handleKeyPress = (e) => {
-        if(e.charCode === 13) 
+        if(e.charCode === 13) {
+            props.updateTicket()
             setEditing(false)
+        }
     }
     const handleInputBlur = () => {
+        props.updateTicket()
         setEditing(false)
     }
-
-    useEffect(() => {
-        if(editing) 
-            setInputFocus()
-        //eslint-disable-next-line
-    }, [editing])
 
     return (
         <Paper className={styles.subtask}>
             <div className={styles.subtaskNameWrapper}>
                 {editing ? 
-                    <input ref={inputRef} className={styles.editingInput} value={props.subtask.name} onChange={e => handleChange(e)} onBlur={() => handleInputBlur()} onKeyPress={e => handleKeyPress(e)}></input> :
+                    <TextField 
+                        variant="outlined" 
+                        autoFocus 
+                        InputProps={{
+                            classes: {root: styles.editingInput}
+                        }}
+                        color="primary"
+                        classes={{root: styles.textFieldRoot}}
+                        multiline
+                        value={props.subtask.name} 
+                        onChange={e => handleChange(e)} 
+                        onBlur={() => handleInputBlur()} 
+                        onKeyPress={e => handleKeyPress(e)}
+                    ></TextField> :
                     <div className={styles.subtaskName}>
                         {props.subtask.name}
                         <EditIcon className={styles.subtaskNameEditIcon} onClick={handleEdit}></EditIcon>
@@ -76,7 +79,7 @@ const Subtask = (props) => {
                 </div>
                 <div className={styles.removeSubtaskWrapper}>
                     <Tooltip title="Remove subtask" arrow className={styles.removeSubtask}>
-                        <CloseIcon onClick={() => props.removeSubtask()}></CloseIcon>
+                        <CloseIcon onClick={() => props.removeSubtask(props.index)}></CloseIcon>
                     </Tooltip>
                 </div>
             </div>

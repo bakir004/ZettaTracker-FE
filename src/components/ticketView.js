@@ -26,6 +26,11 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Subtitle from "./subtitle"
 import SimpleTable from "./simpleTable"
+import Comment from "./comment"
+import {Image} from "cloudinary-react"
+import { saveAs } from "file-saver";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileWord } from '@fortawesome/free-solid-svg-icons'
 
 const { darkestBlue, red, blue, green, orange } = rootStyles;
 
@@ -37,16 +42,17 @@ const useStyles = makeStyles({
     determinate: {
         backgroundColor: "lightgrey"
     }
-  });
+});
 
 function LinearProgressWithLabel(props) {
     const classes = useStyles()
     return (
-      <Box display="flex" alignItems="center">
-        <Box width="100%">
-          <LinearProgress variant="determinate" classes={{barColorPrimary: classes.root,determinate: classes.determinate}} {...props} />
+        <Box display="flex" alignItems="center">
+            <Box width="100%" style={{paddingBottom: "5px"}}>
+                {/* eslint-disable-next-line */}
+                <LinearProgress variant="determinate" classes={{barColorPrimary: classes.root,determinate: classes.determinate}} {...props} />
+            </Box>
         </Box>
-      </Box>
     );
 }
 
@@ -54,81 +60,81 @@ const TicketView = (props) => {
     const styles = useTicketViewStyles()
     const [ticket, setTicket] = useState({})
     const [loading, setLoading] = useState(true)
-    //eslint-disable-next-line
+    const [images, setImages] = useState([])
     const [progress, setProgress] = useState();
-    //eslint-disable-next-line
-    const [subtasks, setSubtasks] = useState([
-        {
-            name: "Add submit button",
-            status: statuses.IN_PROGRESS,
-        },
-        {
-            name: "Add create ticket endpoint",
-            status: statuses.COMPLETED,
-        },
-    ])
+
+    //#region STATE-MANAGEMENT
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/ticket/${props.match.params.ticketId}`)
-            .then(response => {
-                const data = response.data
-                axios.get(`http://localhost:3001/user/${data.reporterId}`)
-                    .then(res1 => {
-                        data.reporter = res1.data.firstName + " " + res1.data.lastName
-                        axios.get(`http://localhost:3001/user/${data.assigneeId}`)
-                        .then(res2 => {
-                            data.assignee = res2.data.firstName + " " + res2.data.lastName
-                            axios.get(`http://localhost:3001/project/${data.projectId}`)
-                            .then(res3 => {
-                                data.project = res3.data.name
-                                setTicket(data)
-                            })
-                        })
-                    })
-            })
-        
-        const completedSubtasks = subtasks.filter((item) => item.status === statuses.COMPLETED).length
-        const percentageCompleted = completedSubtasks / subtasks.length * 100
-        setProgress(percentageCompleted)
+        getTicket(props.match.params.ticketId)
         //eslint-disable-next-line
     }, [])
+
+    const getTicket = (id) => {
+        axios.get(`http://localhost:3001/ticket/${id}`)
+            .then(response => {
+                const data = response.data
+                setTicket(data)
+            })
+    }
 
     useEffect(() => {
         if(ticket.name) {
             setTimeout(() => {
                 setLoading(false)
+                refreshSubtasksProgress()
             }, 750)
         }
-    }, [ticket])
+        //eslint-disable-next-line
+    }, [ticket.name])
 
-    const assignToMe = () => {
-
+    const updateTicket = (newTicket) => {
+        axios.put(`http://localhost:3001/ticket/`, newTicket ? newTicket : ticket)
     }
 
-    const setSubtaskStatus = (index, status) => {
-        if(index === -1) return
-        const subtasksCopy = subtasks
-        subtasksCopy[index].status = status
-        setSubtasks([...subtasksCopy])
-        const completedSubtasks = subtasks.filter((item) => item.status === statuses.COMPLETED).length
-        const percentageCompleted = completedSubtasks / subtasks.length * 100
+    const refreshSubtasksProgress = () => {
+        const completedSubtasks = ticket.subtasks.filter((item) => item.status === statuses.COMPLETED).length
+        const percentageCompleted = Math.round(completedSubtasks / ticket.subtasks.length * 100)
         setProgress(percentageCompleted)
     }
 
-    const removeSubtask = () => {
+    //#endregion
 
+    //#region SUBTASK-HANDLERS
+
+    const setSubtaskStatus = (index, status) => {
+        if(index === -1) return
+        const ticketCopy = ticket
+        ticketCopy.subtasks[index].status = status
+        setTicket({...ticketCopy})
+        updateTicket(ticketCopy)
+        refreshSubtasksProgress()
     }
-
+    const removeSubtask = (index) => {
+        const ticketCopy = ticket
+        ticketCopy.subtasks.splice(index, 1);
+        setTicket({...ticketCopy})
+        updateTicket(ticketCopy)
+        refreshSubtasksProgress()
+    }
+    const addSubtask = () => {
+        const ticketCopy = ticket
+        ticketCopy.subtasks.push({
+            name: "New subtask",
+            status: statuses.OPEN
+        })
+        setTicket({...ticketCopy})
+        updateTicket(ticketCopy)        
+    }
     const handleChange = (value, index) => {
-        const subtasksCopy = subtasks
-        subtasksCopy[index].name = value
-        setSubtasks([...subtasksCopy])
+        const ticketCopy = ticket
+        ticketCopy.subtasks[index].name = value
+        setTicket({...ticketCopy})
     }
 
-    const [mainInfoOpen, setMainInfoOpen] = useState(true)
-    const [subtasksOpen, setSubtasksOpen] = useState(true)
-    const [commentsOpen, setCommentsOpen] = useState(true)
-    const [attachmentsOpen, setAttachmentsOpen] = useState(true)
+    //#endregion
+
+    //#region MENU-HANDLERS
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -142,10 +148,30 @@ const TicketView = (props) => {
         setAnchorEl(null);
     };
 
-    const toggleCommentsOpen = () => setCommentsOpen(!commentsOpen)
-    const toggleSubtasksOpen = () => setSubtasksOpen(!subtasksOpen)
-    const toggleMainInfoOpen = () => setMainInfoOpen(!mainInfoOpen)
-    const toggleAttachmentsOpen = () => setAttachmentsOpen(!attachmentsOpen)
+    //#endregion
+
+    //#region FILE-UPLOAD
+
+    const onFileUpload = (e) => {
+        const formData = new FormData()
+        formData.append("file", e.target.files[0])
+        formData.append("upload_preset", "ZettaTracker")
+
+        axios.post("https://api.cloudinary.com/v1_1/dhstlph6l/upload", formData)
+            .then(res => {
+                setImages([...images, {url: res.data.secure_url, format: res.data.format, fileName: res.data.original_filename}])
+            })
+    }
+
+    const downloadFile = (name, url) => {
+        saveAs(url, name);
+    }
+
+    //#endregion
+
+    const assignToMe = () => {
+
+    }
 
     return (
         <div className={styles.container}>
@@ -168,9 +194,6 @@ const TicketView = (props) => {
                             <Link className={styles.breadcrumbLink} to={`/project/${ticket.projectId}`}>
                                 <AccountTreeIcon style={{width: "20px", height: "20px", marginRight: "5px"}}></AccountTreeIcon>
                                 ZettaTracker
-                            </Link>
-                            <Link className={styles.breadcrumbLink} to={`/project/${ticket.projectId}`}>
-                                Frontend
                             </Link>
                             <Typography style={{fontFamily: "montserrat", color: darkestBlue}}>ZT-420</Typography>
                         </Breadcrumbs>
@@ -209,26 +232,26 @@ const TicketView = (props) => {
                                 {
                                     tooltip: "Add subtask",
                                     icon: <AddIcon></AddIcon>,
-                                    onClickFunction: function(){console.log("lmao")}
+                                    onClickFunction: addSubtask
                                 },
                             ]
                         }
-                        expandableContent={true}
-                        fieldOpen={subtasksOpen}
-                        toggleFunction={toggleSubtasksOpen}
                     >Subtasks</Subtitle>
 
-                    <div className={subtasksOpen ? styles.collapsible : styles.collapsed}>
-                        <div className={styles.subtaskProgress}>
-                            <div className={styles.subtaskProgressDone}>Done {progress}%</div>
-                            <LinearProgressWithLabel value={progress}/>
-                        </div>
-                        <div className={styles.subtasksWrapper}>
-                            {subtasks ? subtasks.map((item, i) => {
-                                return <Subtask subtask={item} key={i} index={i} handleChange={handleChange} removeSubtask={removeSubtask} setSubtaskStatus={setSubtaskStatus}></Subtask>
-                            }) : null}
-                        </div>
-                    </div>
+                    {ticket.subtasks ? ticket.subtasks.length > 0 ? 
+                        <>
+                            <div className={styles.subtaskProgress}>
+                                <div className={styles.subtaskProgressDone}>Done {progress}%</div>
+                                <LinearProgressWithLabel value={progress}/>
+                            </div>
+                            <div className={styles.subtasksWrapper}>
+                                {ticket.subtasks ? ticket.subtasks.map((item, i) => {
+                                    return <Subtask subtask={item} key={i} index={i} updateTicket={updateTicket} handleChange={handleChange} removeSubtask={removeSubtask} setSubtaskStatus={setSubtaskStatus}></Subtask>
+                                }) : null}
+                            </div>
+                        </> :
+                        <div className={styles.noSubtasks}>No subtasks added to this ticket</div> : null
+                    }
                     
                     <Subtitle 
                         actions={
@@ -240,13 +263,13 @@ const TicketView = (props) => {
                                 },
                             ]
                         }
-                        expandableContent={true}
-                        fieldOpen={commentsOpen}
-                        toggleFunction={toggleCommentsOpen}
-                    >Comments</Subtitle>
+                    >Comments (4)</Subtitle>
 
-                    <div className={commentsOpen ? styles.collapsible : styles.collapsed}>
-                        coment
+                    <div className={styles.commentsWrapper}>
+                        <Comment user={{firstName: "Bakir", lastName: "Cinjarevic"}}>Perhaps we should refactor this code into something more readable. LP</Comment>
+                        <Comment user={{firstName: "Bakir", lastName: "Cinjarevic"}}>Perhaps we should refactor this code into something more readable. LP</Comment>
+                        <Comment user={{firstName: "Bakir", lastName: "Cinjarevic"}}>Perhaps we should refactor this code into something more readable. LP</Comment>
+                        <Comment user={{firstName: "Zakir", lastName: "Cinjarevic"}}>no, u suc</Comment>
                     </div>
                 </div>
 
@@ -261,13 +284,9 @@ const TicketView = (props) => {
                                 },
                             ]
                         }
-                        expandableContent={true}
-                        fieldOpen={mainInfoOpen}
-                        toggleFunction={toggleMainInfoOpen}
                     >Main info</Subtitle>
 
-                    <div className={mainInfoOpen ? styles.collapsible : styles.collapsed}>
-                        <SimpleTable
+                    <SimpleTable
                             rows={[
                                 {
                                     field: "Priority",
@@ -286,12 +305,12 @@ const TicketView = (props) => {
                                 },
                                 {
                                     field: "Reporter",
-                                    value: <Chip type="avatar" avatar="" bgColor={blue}>{ticket.reporter}</Chip>
+                                    value: <Chip type="avatar" avatar="" bgColor={blue}>{ticket.reporter.firstName + " " + ticket.reporter.lastName}</Chip>
                                 },
                                 {
                                     field: "Assignee",
                                     value: ticket.assignee ? (
-                                        <Chip type="avatar" avatar="" bgColor={green}>{ticket.assignee}</Chip> 
+                                        <Chip type="avatar" avatar="" bgColor={green}>{ticket.assignee.firstName + " " + ticket.assignee.lastName}</Chip> 
                                     ) : (
                                         <div className={styles.button} onClick={assignToMe}>Assign to me</div>
                                     )
@@ -305,25 +324,31 @@ const TicketView = (props) => {
                                 }
                             ]}
                         ></SimpleTable>
-                    </div>
                     
                     <Subtitle 
                         actions={
                             [
                                 {
                                     tooltip: "Add attachment",
-                                    icon: <AddIcon></AddIcon>,
-                                    onClickFunction: function(){console.log("lmao")}
+                                    icon: <label htmlFor="file-upload" className={styles.uploadPlusIconWrapper}>
+                                            <AddIcon></AddIcon>
+                                          </label>,
+                                    onClickFunction: function(){}
                                 },
                             ]
                         }
-                        expandableContent={true}
-                        fieldOpen={mainInfoOpen}
-                        toggleFunction={toggleAttachmentsOpen}
                     >Attachments</Subtitle>
                     
-                    <div>
-                        atachmen
+                    <div className={styles.attachmentsWrapper}>
+                        <input id="file-upload" type="file" style={{display: "none"}} onChange={(e) => onFileUpload(e)} />
+                        <FontAwesomeIcon icon={faFileWord} ></FontAwesomeIcon>
+                        {images.length > 0 ? images.map((item, i) => {
+                            return item.format === "webp" || item.format === "jpg" || item.format === "png" || item.format === "gif"? <Image key={i} className={styles.attachedImage} cloudName="dhstlph6l" publicId={item.url}></Image>
+                            : 
+                            <div key={i} onClick={() => downloadFile(item.fileName, item.url)} className={styles.extensionIcon}>
+                                <FontAwesomeIcon icon="faFile" ></FontAwesomeIcon>
+                            </div>
+                        }) : null}
                     </div>
                 </div>
 

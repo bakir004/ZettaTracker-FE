@@ -56,13 +56,8 @@ const Dashboard = (props) => {
         axios.get("http://localhost:3001/ticket")
             .then(res => {
                 const data = res.data
-                data.forEach((ticket, i) => {
-                    axios.get(`http://localhost:3001/user/${ticket.assigneeId}`)
-                        .then(res => {
-                            data[i].assignee = res.data.firstName + " " + res.data.lastName
-                            setTickets(data)
-                        })
-                })
+                console.log("done")
+                setTickets(data)
             })
     }, [])
 

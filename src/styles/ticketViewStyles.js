@@ -96,20 +96,13 @@ export const useTicketViewStyles = makeStyles(() => ({
         }
     },
     subtaskProgressDone: {
-        marginBottom: "5px",
+        paddingBottom: "5px",
         color: "grey"
     },
-    collapsible: {
-        maxHeight: "100%",
-        transition: "0.5s",
-        opacity: "1",
-        overflow:'visible',
-    },
-    collapsed: {
-        maxHeight: "0%",
-        transition: "0.5s",
-        overflow: "hidden",
-        opacity: "0",
+    subtasksWrapper: {
+        display: 'flex',
+        flexWrap: "wrap",
+        gap: "5px"
     },
     ticketStatus: {
         display: "flex",
@@ -140,4 +133,42 @@ export const useTicketViewStyles = makeStyles(() => ({
         textTransform: "uppercase",
         fontWeight: "500",
     },
+    noSubtasks: {
+        textAlign: 'center',
+        width: "100%",
+        margin: "2rem 0",
+        fontWeight: "500"
+    },
+
+    attachmentsWrapper: {
+        display: "flex",
+        flexWrap: "wrap"
+    },
+    attachment: {
+        width: "32%",
+        margin: "0.5%",
+        backgroundColor: "lightgrey",
+        borderRadius: "1rem",
+        fontWeight: "500",
+        display: "flex",
+        height: "100px",
+        cursor: "pointer",
+        alignItems: "center",
+        justifyContent: "space-around"
+    },
+    attachedImage: {
+        width: "32%",
+        margin: "0.5%",
+        objectFit: "cover",
+        borderRadius: "1rem",
+    },
+    uploadPlusIconWrapper: {
+        display: 'flex',
+        alignItems: 'center',
+        cursor: "pointer"
+    },
+    extensionIcon: {
+        width: "40px",
+        height: "40px"
+    }
 }))

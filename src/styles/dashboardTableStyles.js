@@ -6,7 +6,7 @@ const { darkestBlue } = rootStyles;
 export const useDashboardTableStyles = makeStyles(() => ({    
     tableRow: {
         height: "40px",
-        borderBottom: "1px solid #d1d1d1",
+        borderBottom: "1px solid lightgrey",
         "& > th": {
             padding: "12px 12px",
             fontFamily: "Montserrat",

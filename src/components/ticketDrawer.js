@@ -40,7 +40,7 @@ const TicketDrawer = (props) => {
                     <div className={styles.drawerTableRow}>
                         <div className={styles.drawerTableRowLeftCell}>Assignee</div>
                         <div className={styles.drawerTableRowRightCell}>
-                            <Chip type="avatar" bgColor={blue}>{props.ticketInfo.assigneeId ? props.ticketInfo.assigneeId : ""}</Chip>
+                            <Chip type="avatar" bgColor={blue}>{props.ticketInfo.assignee ? props.ticketInfo.assignee.firstName + " " + props.ticketInfo.assignee.lastName : ""}</Chip>
                         </div>
                     </div>
                     <div className={styles.drawerTableRow}>

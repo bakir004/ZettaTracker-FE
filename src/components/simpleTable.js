@@ -6,9 +6,9 @@ const SimpleTable = (props) => {
     return ( 
         props.rows ? props.rows.map((row,i) => {
             return (
-                <div className={styles.mainInfoRow}>
-                    <div className={styles.mainInfoField}>{row.field}</div>
-                    <div className={styles.mainInfoValue}>{row.value}</div>
+                <div key={i} className={styles.tableRow}>
+                    <div className={styles.tableField}>{row.field ? row.field : ""}</div>
+                    <div className={styles.tableValue}>{row.value ? row.value : ""}</div>
                 </div>
             )
         }) : null

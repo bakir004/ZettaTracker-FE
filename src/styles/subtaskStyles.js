@@ -7,7 +7,13 @@ export const useSubtaskStyles = makeStyles(() => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        margin: "5px 0"
+        width: "100%"
+    },
+    subtaskNameWrapper: {
+        width: "100%"
+    },
+    textFieldRoot: {
+        width: "100%"
     },
     subtaskName: {
         display: 'flex',
@@ -24,9 +30,10 @@ export const useSubtaskStyles = makeStyles(() => ({
         display: "flex",
         cursor: "pointer",
         alignItems: "center",
-        padding: "0 6px 0 12px",
+        padding: "0 0px 0 12px",
         borderRadius: "100px",
         transition: "0.25s",
+        minWidth: "142px",
         "&:hover": {
             backgroundColor: "lightgrey",
         }
@@ -70,7 +77,8 @@ export const useSubtaskStyles = makeStyles(() => ({
     editingInput: {
         fontFamily: "montserrat",
         fontWeight: "500",
-        border: "none",
-        fontSize: "1rem"
+        fontSize: "1rem",
+        padding: "0.5rem",
+        width: "auto",
     }
 }))
