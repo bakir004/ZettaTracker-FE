@@ -23,17 +23,42 @@ export const useCommentStyles = makeStyles(() => ({
         fontSize: "1.25rem"
     },
     commentTextWrapper: {
-        marginLeft: "0.5rem"
+        marginLeft: "0.5rem",
+        width: "100%",
+        fontSize: "0.9125rem"
     },
-    commentUser: {
+    commentHeader: {
         fontWeight: "500",
+        display: "flex",
+        gap: "1rem",
+        lineHeight: "24px",
     },
     timestamp:{
-        marginLeft: "1rem",
-        color: "grey",
-        fontWeight: "400"
+        // color: "grey",
+        fontWeight: "500"
     },
-    commentText: {
-        marginTop: "4px",
+    commentUsername: {
+        fontWeight: "600"
+    },
+    editingInput: {
+        fontFamily: "montserrat",
+        fontWeight: "500",
+        fontSize: "1rem",
+        padding: "0.5rem",
+        width: "auto",
+        marginTop: "5px"
+    },
+    textFieldRoot: {
+        width: "100%"
+    },
+    commentActionsWrapper: {
+        height: "24px",
+        display: 'flex',
+        alignItems: "center",
+        color: 'grey'
+    },
+    commentActionIcon: {
+        width: "18px",
+        height: "18px"
     }
 }))

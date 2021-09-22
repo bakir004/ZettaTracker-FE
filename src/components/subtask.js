@@ -4,7 +4,6 @@ import {rootStyles} from "../styles/rootStyles"
 import Paper from "@material-ui/core/Paper"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CloseIcon from '@material-ui/icons/Close';
-import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from "@material-ui/core/Tooltip"
 import { statuses } from './ticketEnums';
 import Menu from '@material-ui/core/Menu';
@@ -62,11 +61,11 @@ const Subtask = (props) => {
                         value={props.subtask.name} 
                         onChange={e => handleChange(e)} 
                         onBlur={() => handleInputBlur()} 
+                        onFocus={e => e.target.select()}
                         onKeyPress={e => handleKeyPress(e)}
                     ></TextField> :
-                    <div className={styles.subtaskName}>
+                    <div className={styles.subtaskName} onClick={handleEdit}>
                         {props.subtask.name}
-                        <EditIcon className={styles.subtaskNameEditIcon} onClick={handleEdit}></EditIcon>
                     </div>
                 }
             </div>

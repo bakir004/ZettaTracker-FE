@@ -10,7 +10,7 @@ export const useSubtaskStyles = makeStyles(() => ({
         width: "100%"
     },
     subtaskNameWrapper: {
-        width: "100%"
+        width: "auto"
     },
     textFieldRoot: {
         width: "100%"
@@ -18,7 +18,11 @@ export const useSubtaskStyles = makeStyles(() => ({
     subtaskName: {
         display: 'flex',
         fontSize: "1rem",
-        alignItems: "center"
+        alignItems: "center",
+        "&:hover": {
+            textDecoration:"underline",
+            cursor:"pointer"
+        }
     },
     subtaskNameEditIcon: {
         width: "1rem",
@@ -33,14 +37,13 @@ export const useSubtaskStyles = makeStyles(() => ({
         padding: "0 0px 0 12px",
         borderRadius: "100px",
         transition: "0.25s",
-        minWidth: "142px",
         "&:hover": {
             backgroundColor: "lightgrey",
         }
     },
     subtaskStatusText: {
         fontWeight: "600",
-        textTransform: "uppercase"
+        textTransform: "uppercase",
     },
     subtaskStatusIconWrapper: {
         display: "flex",
@@ -57,7 +60,8 @@ export const useSubtaskStyles = makeStyles(() => ({
         fontWeight: "500",
     },
     subtaskStatusAndRemove: {
-        display: "flex"
+        display: "flex",
+        width: ""
     },
     removeSubtask: {
         transition: "0.25s",

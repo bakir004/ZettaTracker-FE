@@ -90,6 +90,9 @@ const TicketView = (props) => {
 
     const updateTicket = (newTicket) => {
         axios.put(`http://localhost:3001/ticket/`, newTicket ? newTicket : ticket)
+            .then(res => {
+                console.log(res.data)
+            })
     }
 
     const refreshSubtasksProgress = () => {
@@ -124,7 +127,8 @@ const TicketView = (props) => {
             status: statuses.OPEN
         })
         setTicket({...ticketCopy})
-        updateTicket(ticketCopy)        
+        updateTicket(ticketCopy)   
+        refreshSubtasksProgress()     
     }
     const handleChange = (value, index) => {
         const ticketCopy = ticket
@@ -159,7 +163,8 @@ const TicketView = (props) => {
 
         axios.post("https://api.cloudinary.com/v1_1/dhstlph6l/upload", formData)
             .then(res => {
-                setImages([...images, {url: res.data.secure_url, format: res.data.format, fileName: res.data.original_filename}])
+                console.log(res)
+                setImages([...images, {url: res.data.secure_url, format: res.data.format, fileName: res.data.original_filename, public_id: res.data.public_id}])
             })
     }
 
@@ -167,10 +172,45 @@ const TicketView = (props) => {
         saveAs(url, name);
     }
 
+    const onFileDestroy = (fileDetails) => {
+        axios.post("http://localhost:3001/cloudinary/remove", fileDetails)
+            .then(res => {
+                console.log(res)
+            })
+    }
+
     //#endregion
 
     const assignToMe = () => {
 
+    }
+
+    const addComment = () => {
+        const ticketCopy = ticket
+        ticketCopy.comments.push({
+            user: {
+                _id: "6d67d0a888d4fc276cd2a430",
+                firstName: "Zakir",
+                lastName: "Cinjarevic",
+                userInfo: "8d67d0a888d4fc276cd2a430"
+            },
+            timestamp: "Today",
+            text: "",
+            editing: true
+        })
+        setTicket({...ticketCopy})
+    }
+
+    const handleCommentChange = (value, index) => {
+        const ticketCopy = ticket
+        ticketCopy.comments[index].text = value
+        setTicket({...ticketCopy})
+    }
+    const disableCommentEditing = (index) => {
+        const ticketCopy = ticket
+        delete ticketCopy.comments[index].editing
+        setTicket({...ticketCopy})
+        updateTicket(ticketCopy)
     }
 
     return (
@@ -208,7 +248,7 @@ const TicketView = (props) => {
                             <AttachmentIcon style={{width: "20px", height: "20px"}}></AttachmentIcon>
                             <div>Attach</div>
                         </Chip>
-                        <Chip type="basic" color={darkestBlue}>
+                        <Chip type="basic" color={darkestBlue} onClickFunc={addSubtask}>
                             <LibraryAddCheckIcon></LibraryAddCheckIcon>
                             <div>Add subtask</div>
                         </Chip>
@@ -236,7 +276,7 @@ const TicketView = (props) => {
                                 },
                             ]
                         }
-                    >Subtasks</Subtitle>
+                    >Subtasks ({ticket.subtasks.length})</Subtitle>
 
                     {ticket.subtasks ? ticket.subtasks.length > 0 ? 
                         <>
@@ -259,17 +299,16 @@ const TicketView = (props) => {
                                 {
                                     tooltip: "Add comment",
                                     icon: <AddIcon></AddIcon>,
-                                    onClickFunction: function(){console.log("lmao")}
+                                    onClickFunction: () => addComment()
                                 },
                             ]
                         }
-                    >Comments (4)</Subtitle>
+                    >Comments ({ticket.comments.filter(comment => !comment.editing).length})</Subtitle>
 
                     <div className={styles.commentsWrapper}>
-                        <Comment user={{firstName: "Bakir", lastName: "Cinjarevic"}}>Perhaps we should refactor this code into something more readable. LP</Comment>
-                        <Comment user={{firstName: "Bakir", lastName: "Cinjarevic"}}>Perhaps we should refactor this code into something more readable. LP</Comment>
-                        <Comment user={{firstName: "Bakir", lastName: "Cinjarevic"}}>Perhaps we should refactor this code into something more readable. LP</Comment>
-                        <Comment user={{firstName: "Zakir", lastName: "Cinjarevic"}}>no, u suc</Comment>
+                        {ticket.comments.length > 0 ? ticket.comments.map((comment, i) => {
+                            return <Comment key={i} index={i} disableCommentEditing={disableCommentEditing} updateTicket={updateTicket} handleChange={handleCommentChange} comment={comment}></Comment>
+                        }) : <div>No comment</div>}
                     </div>
                 </div>
 
@@ -343,10 +382,10 @@ const TicketView = (props) => {
                         <input id="file-upload" type="file" style={{display: "none"}} onChange={(e) => onFileUpload(e)} />
                         <FontAwesomeIcon icon={faFileWord} ></FontAwesomeIcon>
                         {images.length > 0 ? images.map((item, i) => {
-                            return item.format === "webp" || item.format === "jpg" || item.format === "png" || item.format === "gif"? <Image key={i} className={styles.attachedImage} cloudName="dhstlph6l" publicId={item.url}></Image>
+                            return item.format === "webp" || item.format === "jpg" || item.format === "png" || item.format === "gif"? <Image key={i} className={styles.attachedImage} cloudName="dhstlph6l" publicId={item.url} onClick={() => onFileDestroy(item)}></Image>
                             : 
                             <div key={i} onClick={() => downloadFile(item.fileName, item.url)} className={styles.extensionIcon}>
-                                <FontAwesomeIcon icon="faFile" ></FontAwesomeIcon>
+                                icon
                             </div>
                         }) : null}
                     </div>

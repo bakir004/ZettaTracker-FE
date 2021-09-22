@@ -6,12 +6,12 @@ const Chip = (props) => {
     const styles = useChipStyles();
     return ( 
         props.type === "basic" ?
-        <div className={styles.basicChip} style={{background: props.bgColor ? `${props.bgColor}` : "#d3d3d3", color: props.color ? props.color : "white"}}>
+        <div onClick={() => props.onClickFunc ? props.onClickFunc() : null} className={styles.basicChip} style={{background: props.bgColor ? `${props.bgColor}` : "#d3d3d3", color: props.color ? props.color : "white"}}>
             {props.children}
         </div>
         :
         props.type === "avatar" ? 
-        <div className={styles.avatarChip} style={{background: props.bgColor ? `${props.bgColor}` : "#d3d3d3", color: props.color ? props.color : "white"}}>
+        <div onClick={() => props.onClickFunc ? props.onClickFunc() : null} className={styles.avatarChip} style={{background: props.bgColor ? `${props.bgColor}` : "#d3d3d3", color: props.color ? props.color : "white"}}>
             {props.avatar ? 
                 <div className={styles.avatarImageDiv}>
                     <img src={props.avatar} className={styles.avatarImage} alt="Avatar"></img>
