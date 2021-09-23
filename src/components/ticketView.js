@@ -20,8 +20,6 @@ import Subtask from "./subtask"
 import { statuses, priorities } from './ticketEnums';
 import AddIcon from '@material-ui/icons/Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-// import CheckIcon from '@material-ui/icons/Check';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Subtitle from "./subtitle"
@@ -30,7 +28,9 @@ import Comment from "./comment"
 import {Image} from "cloudinary-react"
 import { saveAs } from "file-saver";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileWord } from '@fortawesome/free-solid-svg-icons'
+import { getIcon } from './fileExtensionIconGetter';
+import CloseIcon from '@material-ui/icons/Close';
+import Tooltip from "@material-ui/core/Tooltip";
 
 const { darkestBlue, red, blue, green, orange } = rootStyles;
 
@@ -60,7 +60,6 @@ const TicketView = (props) => {
     const styles = useTicketViewStyles()
     const [ticket, setTicket] = useState({})
     const [loading, setLoading] = useState(true)
-    const [images, setImages] = useState([])
     const [progress, setProgress] = useState();
 
     //#region STATE-MANAGEMENT
@@ -89,14 +88,15 @@ const TicketView = (props) => {
     }, [ticket.name])
 
     const updateTicket = (newTicket) => {
+        console.log(newTicket)
         axios.put(`http://localhost:3001/ticket/`, newTicket ? newTicket : ticket)
             .then(res => {
-                console.log(res.data)
+                console.log("updated")
             })
     }
 
     const refreshSubtasksProgress = () => {
-        const completedSubtasks = ticket.subtasks.filter((item) => item.status === statuses.COMPLETED).length
+        const completedSubtasks = ticket.subtasks.filter((item) => item.status === statuses.COMPLETED || item.status === statuses.CLOSED).length
         const percentageCompleted = Math.round(completedSubtasks / ticket.subtasks.length * 100)
         setProgress(percentageCompleted)
     }
@@ -156,6 +156,13 @@ const TicketView = (props) => {
 
     //#region FILE-UPLOAD
 
+    const getExtension = (fileName) => {
+        console.log(fileName)
+        var re = /(?:\.([^.]+))?$/;
+        console.log(re.exec(fileName)[1])
+        return re.exec(fileName)[1]
+    }
+
     const onFileUpload = (e) => {
         const formData = new FormData()
         formData.append("file", e.target.files[0])
@@ -163,19 +170,28 @@ const TicketView = (props) => {
 
         axios.post("https://api.cloudinary.com/v1_1/dhstlph6l/upload", formData)
             .then(res => {
-                console.log(res)
-                setImages([...images, {url: res.data.secure_url, format: res.data.format, fileName: res.data.original_filename, public_id: res.data.public_id}])
+                const file = {
+                    url: res.data.secure_url, 
+                    format: res.data.format ? res.data.format : getExtension(res.data.public_id), 
+                    name: res.data.original_filename, 
+                    public_id: res.data.public_id, 
+                    icon: res.data.format ? getIcon(res.data.format) : getIcon(getExtension(res.data.public_id))
+                }
+                const ticketCopy = ticket
+                ticketCopy.attachments.push(file)
+                setTicket({...ticketCopy})
+                updateTicket(ticketCopy)
             })
     }
 
-    const downloadFile = (name, url) => {
-        saveAs(url, name);
+    const downloadFile = ({fileName, url}) => {
+        saveAs(url, fileName);
     }
 
     const onFileDestroy = (fileDetails) => {
         axios.post("http://localhost:3001/cloudinary/remove", fileDetails)
             .then(res => {
-                console.log(res)
+                console.log("done")
             })
     }
 
@@ -211,6 +227,21 @@ const TicketView = (props) => {
         delete ticketCopy.comments[index].editing
         setTicket({...ticketCopy})
         updateTicket(ticketCopy)
+    }
+    const handleRemoveComment = (index) => {
+        const ticketCopy = ticket;
+        ticketCopy.comments.splice(index, 1)
+        setTicket({...ticketCopy})
+        updateTicket(ticketCopy)
+    }
+
+
+    const removeAttachment = (file, index) => {
+        onFileDestroy(file)
+        const ticketCopy = ticket
+        ticketCopy.attachments.splice(index, 1)
+        setTicket({...ticketCopy})
+        updateTicket()
     }
 
     return (
@@ -307,7 +338,7 @@ const TicketView = (props) => {
 
                     <div className={styles.commentsWrapper}>
                         {ticket.comments.length > 0 ? ticket.comments.map((comment, i) => {
-                            return <Comment key={i} index={i} disableCommentEditing={disableCommentEditing} updateTicket={updateTicket} handleChange={handleCommentChange} comment={comment}></Comment>
+                            return <Comment key={i} index={i} handleRemoveComment={handleRemoveComment} disableCommentEditing={disableCommentEditing} updateTicket={updateTicket} handleChange={handleCommentChange} comment={comment}></Comment>
                         }) : <div>No comment</div>}
                     </div>
                 </div>
@@ -376,17 +407,34 @@ const TicketView = (props) => {
                                 },
                             ]
                         }
-                    >Attachments</Subtitle>
+                    >Attachments ({ticket.attachments.length})</Subtitle>
                     
                     <div className={styles.attachmentsWrapper}>
                         <input id="file-upload" type="file" style={{display: "none"}} onChange={(e) => onFileUpload(e)} />
-                        <FontAwesomeIcon icon={faFileWord} ></FontAwesomeIcon>
-                        {images.length > 0 ? images.map((item, i) => {
-                            return item.format === "webp" || item.format === "jpg" || item.format === "png" || item.format === "gif"? <Image key={i} className={styles.attachedImage} cloudName="dhstlph6l" publicId={item.url} onClick={() => onFileDestroy(item)}></Image>
-                            : 
-                            <div key={i} onClick={() => downloadFile(item.fileName, item.url)} className={styles.extensionIcon}>
-                                icon
-                            </div>
+                        {ticket.attachments.length > 0 ? ticket.attachments.map((file, i) => {
+                            return (
+                                <div key={i} className={styles.attachmentFileWrapper}>
+                                    <div className={styles.attachmentFileIconWrapper}>
+                                        {file.format === "webp" || file.format === "jpg" || file.format === "png" || file.format === "gif" ?
+                                            <div className={styles.attachedImageWrapper}>
+                                                <Image className={styles.attachedImage} cloudName="dhstlph6l" publicId={file.public_id}></Image>
+                                            </div>
+                                            : 
+                                            <FontAwesomeIcon icon={file.icon} className={styles.attachmentFileIcon}></FontAwesomeIcon>
+                                        }
+                                    </div>
+                                    <div className={styles.attachmentFileName} onClick={() => downloadFile(file)}>
+                                        {file.name.length > 20 ? file.name.substring(0, 20) + "..." : file.name}
+                                    </div>
+                                    <div className={styles.removeAttachmentIconWrapper}>
+                                        <Tooltip arrow title="Remove attachment">
+                                            <div className={styles.removeAttachmentIconDiv}>
+                                                <CloseIcon onClick={() => removeAttachment(file, i)}></CloseIcon>
+                                            </div>
+                                        </Tooltip>
+                                    </div>
+                                </div>
+                            )
                         }) : null}
                     </div>
                 </div>

@@ -9,9 +9,9 @@ export const useChipStyles = makeStyles(() => ({
         display: "inline-flex",
         alignItems: "center",
         borderRadius: "100px",
-        padding: "2px 10px",
+        padding: "0.125em 0.8125em",
         gap: "4px",
-        fontSize: "14px",
+        fontSize: "0.8875rem",
         "& svg": {
             height: "18px",
             width: "18px",
@@ -30,9 +30,9 @@ export const useChipStyles = makeStyles(() => ({
         display: "inline-flex",
         alignItems: "center",
         cursor: "pointer",
-        fontSize: "0.8125rem",
+        fontSize: "0.8875rem",
         borderRadius: "100px",
-        padding: "2px 4px 2px 2px",
+        padding: "0.125em 0.375em 0.125em 0.125em",
     },
     avatarImageDiv: {
         height: "24px",

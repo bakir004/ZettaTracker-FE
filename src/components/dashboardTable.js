@@ -27,7 +27,7 @@ const DashboardTable = (props) => {
                 <colgroup>
                     <col></col>
                     <col width="20%"></col>
-                    <col width="15%"></col>
+                    <col style={{minWidth: "200px"}} width="15%"></col>
                     <col width="10%"></col>
                     <col width="20%"></col>
                 </colgroup>

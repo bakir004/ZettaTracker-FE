@@ -42,8 +42,8 @@ export const useCommentStyles = makeStyles(() => ({
     },
     editingInput: {
         fontFamily: "montserrat",
-        fontWeight: "500",
-        fontSize: "1rem",
+        fontWeight: "400",
+        fontSize: "0.8875rem",
         padding: "0.5rem",
         width: "auto",
         marginTop: "5px"
@@ -55,7 +55,11 @@ export const useCommentStyles = makeStyles(() => ({
         height: "24px",
         display: 'flex',
         alignItems: "center",
-        color: 'grey'
+        color: 'grey',
+        cursor: "pointer",
+        "&:hover": {
+            textDecoration: "underline"
+        }
     },
     commentActionIcon: {
         width: "18px",

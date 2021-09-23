@@ -139,36 +139,76 @@ export const useTicketViewStyles = makeStyles(() => ({
         margin: "2rem 0",
         fontWeight: "500"
     },
-
-    attachmentsWrapper: {
-        display: "flex",
-        flexWrap: "wrap"
-    },
-    attachment: {
-        width: "32%",
-        margin: "0.5%",
-        backgroundColor: "lightgrey",
-        borderRadius: "1rem",
-        fontWeight: "500",
-        display: "flex",
-        height: "100px",
-        cursor: "pointer",
-        alignItems: "center",
-        justifyContent: "space-around"
-    },
-    attachedImage: {
-        width: "32%",
-        margin: "0.5%",
-        objectFit: "cover",
-        borderRadius: "1rem",
-    },
     uploadPlusIconWrapper: {
         display: 'flex',
         alignItems: 'center',
         cursor: "pointer"
     },
-    extensionIcon: {
+
+    attachmentsWrapper: {
+        display: "flex",
+        flexWrap: "wrap"
+    },
+    attachmentFileWrapper: {
+        width: "49%",
+        margin: "0.5%",
+        display: "flex",
+        boxSizing: "border-box",
+        alignItems: 'center',
+        border: "1px solid lightgrey"
+    },
+    attachmentFileIconWrapper: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent:"space-around",
+        height: "100%",
+        "& > svg.svg-inline--fa": {
+            width: "1.25rem",
+            height: "1.25rem",
+        },
+        flex: "0 0 40px",
+    },
+    attachmentFileName: {
+        flex: "1 1 0",
+        fontSize: "0.8125rem",
+        cursor: "pointer",
+        wordWrap: "break-word",
+        "&:hover": {
+            textDecoration: "underline"
+        }
+    },
+    removeAttachmentIconWrapper: {
         width: "40px",
-        height: "40px"
+        height: "40px",
+        display:"flex",
+        alignItems: "center",
+        justifyContent: "space-around",
+        flex: "0 0 40px",
+        borderRadius: "100px",
+        cursor:"pointer",
+        transition: "0.25s",
+    },
+    removeAttachmentIconDiv: {
+        width: "1.75rem",
+        height: "1.75rem",
+        borderRadius: "100px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around",
+        transition: "0.25s",
+        "&:hover":{
+            backgroundColor: "lightgrey"
+        }
+    },
+    attachedImage: {
+        height: "100%",
+        width: "100%",
+        objectFit: "cover",
+        borderRadius: "5px",
+    },
+    attachedImageWrapper: {
+        width: "2rem",
+        height: '2rem',
+        objectFit: "cover"
     }
 }))

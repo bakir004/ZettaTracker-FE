@@ -1,7 +1,6 @@
 import React from 'react';
 import { useCommentStyles } from "../styles/commentStyles"
 import TextField from '@material-ui/core/TextField'
-import DeleteIcon from '@material-ui/icons/Delete'
 
 const Comment = (props) => {
     const styles = useCommentStyles();
@@ -38,7 +37,7 @@ const Comment = (props) => {
                 <div className={styles.commentHeader}>
                     <div className={styles.commentUsername}>{props.comment.user.firstName + " " + props.comment.user.lastName + " "}</div>
                     <div className={styles.timestamp}>{props.comment.timestamp.toString()}</div>
-                    <div className={styles.commentActionsWrapper}>
+                    <div className={styles.commentActionsWrapper} onClick={() => props.handleRemoveComment(props.index)}>
                         Remove
                     </div>
                 </div>

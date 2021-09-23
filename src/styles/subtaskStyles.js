@@ -48,7 +48,8 @@ export const useSubtaskStyles = makeStyles(() => ({
     subtaskStatusIconWrapper: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        marginRight: "0.25rem"
     },
     subtaskStatusIcon: {
         width: "20px",
